@@ -82,7 +82,7 @@ O sistema também implementa mensagens em grupo, grupo este que o usuário que t
 *	Eu, como usuário, quero visualizar todas as mensagens que enviei para determinado usuário por ordem de envio.
 *	Eu, como usuário, quero realizar denúncia de usuários e mensagens que julgo serem imorais.
 * Eu, como usuario, quero vizualizar toda mensangens enviadas para mim.
-* Eu, como usuario "inflator" devo ser punido quando derrespeitar as norrmas do Bay Messages, assim nao conseguido enviar mensagens. 
+* Eu, como usuario "inflator" quando for punido derrespeitar as norrmas do Bay Messages,nao poderei enviar mensagens. 
 * Eu, como adiministrador, quero poder punir usuarios quando for necessario.
   
 
