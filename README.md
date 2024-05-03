@@ -81,6 +81,9 @@ O sistema também implementa mensagens em grupo, grupo este que o usuário que t
 *	Eu, como usuário, quero enviar mensagens fornecendo o texto e indicando o usuário que irá recebê-la.
 *	Eu, como usuário, quero visualizar todas as mensagens que enviei para determinado usuário por ordem de envio.
 *	Eu, como usuário, quero realizar denúncia de usuários e mensagens que julgo serem imorais.
+* Eu, como usuario, quero vizualizar toda mensangens enviadas para mim
+* Eu, como adiministrador, quero poder punir usuarios quando for necessario
+
 
 
 
@@ -101,7 +104,8 @@ O sistema também implementa mensagens em grupo, grupo este que o usuário que t
 ## Diagrama de classe
 diagrama completo, com todas as classes relacionamentos e atributos. As operações não são necessárias, exceto aquelas que você considerar relevante (se achar). Para cada classe, crie um subtópico explicando sua necessidade e seus atributos (descrição breve). 
 
-![Captura de tela 2024-05-03 102620](https://github.com/KonoJoao/Bay-Messages/assets/76479617/01069041-dce3-425a-9ffb-08d58bc0e7f1)
+
+![diagramaDeClasses](https://github.com/KonoJoao/Bay-Messages/assets/76479617/12866998-53c1-4ceb-bfd0-c35422a35146)
 
 ## Testes
 vazio, por enquanto.
