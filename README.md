@@ -101,8 +101,7 @@ O sistema também implementa mensagens em grupo, grupo este que o usuário que t
 ## Diagrama de classe
 diagrama completo, com todas as classes relacionamentos e atributos. As operações não são necessárias, exceto aquelas que você considerar relevante (se achar). Para cada classe, crie um subtópico explicando sua necessidade e seus atributos (descrição breve). 
 
-
-![diagramaDeClasses](https://github.com/KonoJoao/Bay-Messages/assets/76479617/12866998-53c1-4ceb-bfd0-c35422a35146)
+![Captura de tela 2024-05-03 102620](https://github.com/KonoJoao/Bay-Messages/assets/76479617/01069041-dce3-425a-9ffb-08d58bc0e7f1)
 
 ## Testes
 vazio, por enquanto.
