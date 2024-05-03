@@ -5,24 +5,6 @@ Engenharia de Software
 Versão 1.0<br></br>
 API intermediadora de mensagens que, tem como foco, registrar mensagens que são enviadas de um usuário cadastrado, nos serviços da api, para outro usuário, também cadastrado.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 1. Gabriel Borges Garcia
 2. Jheissyane Kelly
 3. João Vitor Alves
@@ -31,49 +13,10 @@ API intermediadora de mensagens que, tem como foco, registrar mensagens que são
 Elias Ferreira
 Engenharia de Software - Instituto de Informática/UFG
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Introdução
 API intermediadora de mensagens que engloba a criação de contas verificáveis a partir do número de telefone informado, no qual é enviado um sms com um código que coincide com o cadastrado no banco de dados junto às informações do usuário para verificação de identidade. Em posse da aplicação, o usuário estando devidamente cadastrado com nome, telefone e uma senha, poderá enviar mensagens diretamente para outra pessoa, estando em posse, para isso, do número de telefone da mesma. Seguindo uma conexão par a par, ocorrerá uma troca de mensagens entre ambos na forma de remetente e destinatário, ordenadas por data e ordem de envio.
 A fim de regulamentar o uso correto e ético da aplicação, promovendo um ambiente acessível para todas as idades, a aplicação contará com o filtro para mensagens de cunho malicioso, impedindo que xingamentos, ofensas e outras palavras de baixo calão sejam deferidas aos usuários, evitando o desde já o envio da mensagem. Assim como feito automaticamente pelo sistema, o usuário também poderá denunciar outras contas por comportamentos inadequados, estando este banido do sistema por tempo determinado quando atingir o limite de denúncias, sem poder enviar mensagens durante esse tempo.
 O sistema também implementa mensagens em grupo, grupo este que o usuário que tiver acesso através de uma solicitação de acesso aprovada por um  administrador e criador do grupo - cujos controles permitem adicionar e remover pessoas - poderá enviar mensagens que ficarão cadastradas e armazenadas junto ao grupo, acessadas por quem estiver nele.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 ## Casos de Uso
@@ -83,28 +26,28 @@ O sistema também implementa mensagens em grupo, grupo este que o usuário que t
 *	Eu, como usuário, quero realizar denúncia de usuários e mensagens que julgo serem imorais.
 * Eu, como usuario, quero visualizar toda mensagens enviadas para mim
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Diagrama de classe
 diagrama completo, com todas as classes relacionamentos e atributos. As operações não são necessárias, exceto aquelas que você considerar relevante (se achar). Para cada classe, crie um subtópico explicando sua necessidade e seus atributos (descrição breve). 
 
+![Captura de tela 2024-05-03 111839](https://github.com/KonoJoao/Bay-Messages/assets/76479617/b30fd270-8a9d-49a8-b8a8-b9061390ab61)
+### Classe Usuario
+Representa o usuário que estará utilizando o sistema. Seu cadastro requer telefone, nome e senha. Além das operações de CRUD realizadas com a classe Usuário, ele também pode enviar mensagem, realizar denúncias e logar com auxílio de token.
 
-![diagramaDeClasses](https://github.com/KonoJoao/Bay-Messages/assets/76479617/12866998-53c1-4ceb-bfd0-c35422a35146)
+### Enum EnumMotivoDenuncia
+Representa os possíveis motivos para denunciar uma mensagem ou usuário.
+
+### Classe Denuncia
+Representa as denuncias feitas pelo usuario. Ela está associada ao usuário que realizou a denúncia e ao que foi denunciado, além de carregar um motivo listado no EnumMotivoDenuncia
+
+### Classe Abstrata Chat
+
+### Classe ConversaPrivada
+
+### Classe Grupo
+
+### Classe Mensagem
+
+### Classe AnalisadorDeMensagem
 
 ## Testes
 vazio, por enquanto.
