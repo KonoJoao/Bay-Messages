@@ -28,7 +28,8 @@ O sistema também implementa mensagens em grupo, grupo este que o usuário que t
 * Eu, como usuario, quero visualizar toda mensagens enviadas para mim
 
 ## Diagrama de classe
-![RLJ1Rjim33r7Nq7uv0vDiVLO54Ezk1WoD4cnP1_0HPmhp9OAIJQ6PVltqPfboqbpI4poXU-HZ_23ysXzszJYMADpyCsrQ9Kv2LWeUGTFHbVywAcc7qRJcD2cuM3lhGgX8_s2OonW-93k5DeDQOSLDVdg1VtLMBI4jVgDjYJTwgF2d4kBsbHeypdTDSpQNoMy7RUGQ0_c9-dSzzy9wfCnDQ5cM4KsWgP__nN3o57VnSo_l4cu97hMKA8d3b](https://github.com/KonoJoao/Bay-Messages/assets/76479617/960aea10-383d-41e9-ac8d-aba2135cddbc)
+![bLJBRjim43oRNq7e91UnqVPe14LKAoXSn7PGkn-mbbY7gCGDI4eeclRVkwH5cb9pYGu9TpZScNt0TyQ2jbtRiAe1O_Xtqu6M-C9cNDOh_e3gJ4Sh6l43bOY0mfQ2WzNIXqQe9qZY4oXPOs69Ku8LZ77wPaBr4lHMA0DdqURh9x3pouqMqCZVe4kXEbL9oEUKfC4pw7miVJEMcYUQFQMeGH_nfr2vTNyJrcV4He0YsbdeGBg-_ik6yeEv_-](https://github.com/KonoJoao/Bay-Messages/assets/76479617/2839eb4d-0ca6-4781-9ecb-616450f5280f)
+
 
 ### Classe Usuario
 Representa o usuário que estará utilizando o sistema. Seu cadastro requer telefone, nome e senha. Além das operações de CRUD realizadas com a classe Usuário, ele também pode enviar mensagem, realizar denúncias e logar com auxílio de token.
