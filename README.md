@@ -1,5 +1,5 @@
 # Bay Messages
-Construção de Software
+Construção de Software<br></br>
 Engenharia de Software
 2024-01<br></br>
 Versão 1.0<br></br>
@@ -49,7 +49,7 @@ Engenharia de Software - Instituto de Informática/UFG
 
 
 
-Introdução
+## Introdução
 API intermediadora de mensagens que, tem como foco, registrar mensagens que são enviadas de um usuário cadastrado, nos serviços da api, para outro usuário, também cadastrado.
 
 
@@ -99,6 +99,10 @@ API intermediadora de mensagens que, tem como foco, registrar mensagens que são
 
 ## Diagrama de classe
 diagrama completo, com todas as classes relacionamentos e atributos. As operações não são necessárias, exceto aquelas que você considerar relevante (se achar). Para cada classe, crie um subtópico explicando sua necessidade e seus atributos (descrição breve). 
+
+
+![diagramaDeClasses](https://github.com/KonoJoao/Bay-Messages/assets/76479617/12866998-53c1-4ceb-bfd0-c35422a35146)
+
 ## Testes
 vazio, por enquanto.
 ## Gerencia de configuração
