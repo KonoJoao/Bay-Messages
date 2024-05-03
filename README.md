@@ -20,7 +20,8 @@ O sistema também implementa mensagens em grupo, grupo este que o usuário que t
 
 
 ## Casos de Uso
-*  Eu como usuário quero me cadastrar no sistema, fornecendo meu numero de celular, nome e senha para utilizar o sistema.
+* Eu, como usuário quero me cadastrar no sistema, fornecendo meu numero de celular, nome e senha para utilizar o sistema.
+* Eu, como usuário quero realizar login no sistema, fornecendo meu número de celular e senha.
 *	Eu, como usuário, quero enviar mensagens fornecendo o texto e indicando o usuário que irá recebê-la.
 *	Eu, como usuário, quero visualizar todas as mensagens que enviei para determinado usuário por ordem de envio.
 *	Eu, como usuário, quero realizar denúncia de usuários e mensagens que julgo serem imorais.
