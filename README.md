@@ -38,17 +38,22 @@ Representa o usuário que estará utilizando o sistema. Seu cadastro requer tele
 Representa os possíveis motivos para denunciar uma mensagem ou usuário.
 
 ### Classe Denuncia
-Representa as denuncias feitas pelo usuario. Ela está associada ao usuário que realizou a denúncia e ao que foi denunciado, além de carregar um motivo listado no EnumMotivoDenuncia
+Representa as denuncias feitas pelo usuario. Ela está associada ao usuário que realizou a denúncia e ao que foi denunciado, além de carregar um motivo listado no EnumMotivoDenuncia.
 
 ### Classe Abstrata Chat
+Representa uma classe que será herdada por ConversaPrivada e Grupo, carrega os atributos básicos de um chat como id e a possibilidade de adicionar mensagem.
 
 ### Classe ConversaPrivada
+Representa uma conversa entre dois usuários. Herda os atributos e métodos básicos da classe abstrata Chat.
 
 ### Classe Grupo
+Representa uma conversa em grupo entre diversos usuários. Herda os atributos básicos de da classe abstrata Chat e implementa atributos como nome do grupo e usuário administrador. Além de possuir métodos para adicionar ou remover usuários do grupo.
 
 ### Classe Mensagem
+Representa as mensagens enviadas em um chat. Está relacionada ao chat em que foi enviada, armazena data e conteúdo da mensagem. Além disso, também se relaciona ao módulo de análise de mensagem que verifica se há conteúdo "malicioso" no conteúdo.
 
 ### Classe AnalisadorDeMensagem
+Representa o módulo que faz a análise do conteúdo das mensagens e sua persistência no banco de dados.
 
 ## Testes
 vazio, por enquanto.
