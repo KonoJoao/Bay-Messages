@@ -25,7 +25,15 @@ O sistema também implementa mensagens em grupo, grupo este que o usuário que t
 *	Eu, como usuário, quero enviar mensagens fornecendo o texto e indicando o usuário que irá recebê-la.
 *	Eu, como usuário, quero visualizar todas as mensagens que enviei para determinado usuário por ordem de envio.
 *	Eu, como usuário, quero realizar denúncia de usuários e mensagens que julgo serem imorais.
-* Eu, como usuario, quero visualizar toda mensagens enviadas para mim
+* Eu, como usuario, quero visualizar toda mensagens enviadas para mim.
+
+## Regras de Negócio
+* Um usuário será banido caso receba N denúncias.
+* Mensagens julgadas impróprias deverão ser censuradas.
+* Um grupo deverá possuir no mínimo 1 membro para existir.
+* Cada número deverá possuir somente 1 cadastro correspondente.
+* O nome dos usuários deverão possuir entre 3 e 50 caracteres.
+* Apenas usuários autenticados podem enviar mensagens.
 
 ## Diagrama de classe
 ![bLJBRjim43oRNq7e91UnqVPe14LKAoXSn7PGkn-mbbY7gCGDI4eeclRVkwH5cb9pYGu9TpZScNt0TyQ2jbtRiAe1O_Xtqu6M-C9cNDOh_e3gJ4Sh6l43bOY0mfQ2WzNIXqQe9qZY4oXPOs69Ku8LZ77wPaBr4lHMA0DdqURh9x3pouqMqCZVe4kXEbL9oEUKfC4pw7miVJEMcYUQFQMeGH_nfr2vTNyJrcV4He0YsbdeGBg-_ik6yeEv_-](https://github.com/KonoJoao/Bay-Messages/assets/76479617/2839eb4d-0ca6-4781-9ecb-616450f5280f)
