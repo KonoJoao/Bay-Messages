@@ -20,15 +20,160 @@ O sistema também implementa mensagens em grupo, grupo este que o usuário que t
 
 
 ## Casos de Uso
-* Eu, como usuário quero me cadastrar no sistema, fornecendo meu numero de celular, nome e senha para utilizar o sistema.
-* Eu, como usuário quero realizar login no sistema, fornecendo meu número de celular e senha.
+### Cadastro de Usuário
+
+Atores:
+
+    Usuário
+
+Pré-condições:
+
+    O usuário possui um número de telefone celular válido.
+
+Fluxo:
+
+    O usuário insere seu número de telefone celular, nome e senha.
+    O sistema envia um SMS com um código de verificação para o número de telefone celular do usuário.
+    O usuário insere o código de verificação na validação do cadastro.
+    O sistema verifica o código de verificação e cria uma conta de usuário para o usuário.
+    O sistema envia uma mensagem de confirmação para o número de telefone celular do usuário.
+
+Pós-condições:
+
+    O usuário está cadastrado com sucesso e logado no sistema.
+
+### Enviar Mensagem
+
+Atores:
+
+    Remetente (Usuário)
+    Destinatário (Usuário)
+
+Pré-condições:
+
+    O remetente conhece o número de telefone celular do destinatário.
+
+Fluxo:
+
+    O remetente compõe uma mensagem e insere o número de telefone celular do destinatário na tela de composição de mensagem.
+    O sistema verifica a mensagem em busca de palavrões e linguagem ofensiva.
+    Se a mensagem estiver limpa, o sistema a envia ao destinatário.
+    Se a mensagem contiver palavrões ou linguagem ofensiva, o sistema exibe uma mensagem de erro para o remetente, censura a mensagem e a envia.
+
+Pós-condições:
+
+    A mensagem é enviada ao destinatário.
+
+### Visualizar Mensagens Enviadas
+
+Atores:
+
+    Remetente (Usuário)
+
+Fluxo:
+
+    O remetente seleciona o destinatário desejado na lista de conversas.
+    O sistema recupera as mensagens enviadas para o destinatário selecionado e as exibe em ordem cronológica.
+
+Pós-condições:
+
+    As mensagens enviadas são exibidas para o remetente.
+
+### Denunciar Usuário ou Mensagem
+
+Atores:
+
+    Denunciante (Usuário)
+
+Fluxo:
+
+    O denunciante seleciona o usuário ou mensagem que deseja denunciar.
+    O denunciante seleciona o motivo da denúncia em uma lista de opções.
+    O denunciante envia a denúncia.
+
+### Visualizar Mensagens Recebidas
+
+Atores:
+
+    Destinatário (Usuário)
+
+Pré-condições:
+
+    O destinatário está logado no sistema.
+
+Fluxo:
+
+    O destinatário seleciona a conversa desejada na lista de conversas.
+    O sistema recupera as mensagens recebidas para a conversa selecionada e as exibe em ordem cronológica.
+
+Pós-condições:
+
+    As mensagens recebidas são exibidas para o destinatário.
+
+### Criar Grupo
+
+Atores:
+
+    Criador do Grupo (Usuário)
+
+Pré-condições:
+
+    O criador do grupo está logado no sistema.
+
+Fluxo:
+
+    O criador do grupo insere o nome do grupo e adiciona membros ao grupo.
+    O sistema cria o grupo e define o criador do grupo como administrador do grupo.
+
+Pós-condições:
+
+    O grupo é criado e o criador do grupo é definido como administrador do grupo.
+
+### Adicionar Membro ao Grupo
+
+Atores:
+
+    Administrador do Grupo (Usuário)
+
+Pré-condições:
+
+    O administrador do grupo tem a autoridade para adicionar membros ao grupo.
+
+Fluxo:
+
+    O administrador do grupo seleciona o grupo ao qual deseja adicionar um membro.
+    O administrador do grupo insere o número de telefone do usuário que deseja adicionar ao grupo.
+
+Pós-condições:
+
+    O usuário é adicionado ao grupo.
+
+### Remover Membro do Grupo
+
+Atores:
+
+    Administrador do Grupo (Usuário)
+
+Pré-condições:
+
+    O administrador do grupo tem a autoridade para remover membros do grupo.
+
+Fluxo:
+
+    O administrador do grupo seleciona o grupo do qual deseja remover um membro.
+    O administrador do grupo seleciona o membro que deseja remover do grupo pelo telefone.
+
+Pós-condições:
+
+    O membro é removido do grupo.
+    
 *	Eu, como usuário, quero enviar mensagens fornecendo o texto e indicando o usuário que irá recebê-la.
 *	Eu, como usuário, quero visualizar todas as mensagens que enviei para determinado usuário por ordem de envio.
 *	Eu, como usuário, quero realizar denúncia de usuários e mensagens que julgo serem imorais.
 * Eu, como usuario, quero visualizar toda mensagens enviadas para mim.
 
 ## Regras de Negócio
-* Um usuário será banido caso receba N denúncias.
+* Um usuário será banido caso receba 5 denúncias.
 * Mensagens julgadas impróprias deverão ser censuradas.
 * Um grupo deverá possuir no mínimo 1 membro para existir.
 * Cada número deverá possuir somente 1 cadastro correspondente.
