@@ -166,11 +166,6 @@ Fluxo:
 Pós-condições:
 
     O membro é removido do grupo.
-    
-*	Eu, como usuário, quero enviar mensagens fornecendo o texto e indicando o usuário que irá recebê-la.
-*	Eu, como usuário, quero visualizar todas as mensagens que enviei para determinado usuário por ordem de envio.
-*	Eu, como usuário, quero realizar denúncia de usuários e mensagens que julgo serem imorais.
-* Eu, como usuario, quero visualizar toda mensagens enviadas para mim.
 
 ## Regras de Negócio
 * Um usuário será banido caso receba 5 denúncias.
