@@ -181,7 +181,8 @@ Pós-condições:
 * Apenas usuários autenticados podem enviar mensagens.
 
 ## Diagrama de classe
-![bLJBRjim43oRNq7e91UnqVPe14LKAoXSn7PGkn-mbbY7gCGDI4eeclRVkwH5cb9pYGu9TpZScNt0TyQ2jbtRiAe1O_Xtqu6M-C9cNDOh_e3gJ4Sh6l43bOY0mfQ2WzNIXqQe9qZY4oXPOs69Ku8LZ77wPaBr4lHMA0DdqURh9x3pouqMqCZVe4kXEbL9oEUKfC4pw7miVJEMcYUQFQMeGH_nfr2vTNyJrcV4He0YsbdeGBg-_ik6yeEv_-](https://github.com/KonoJoao/Bay-Messages/assets/76479617/2839eb4d-0ca6-4781-9ecb-616450f5280f)
+![bLF1Zjem43tZhx1o2jM2sXuHGfkILKMrBAj2Fs18fgpLn5xPJbILzjyxiN6SHDj3EOJupMFUcpVctbZGjgahLbHW3Fzc6j12NHdlFg9SyKSbB_vaiSBlIk8Gawgcyz5g4H23yWN6q1caA5LcYPc3HTQXCuwo5Q3tA0rSi4wtBs3dlg8HAl4BT8woaOM0rE6SL-e2EXtRk1iBpiVABJKgGP_K3vIfxPu3uYUbAWJfcHVKWHTx_66tM8BBV-](https://github.com/KonoJoao/Bay-Messages/assets/76479617/79c40d6b-45bd-412f-ae3d-98e2faac0808)
+
 
 
 ### Classe Usuario
