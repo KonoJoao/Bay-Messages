@@ -33,14 +33,30 @@ Pré-condições:
 Fluxo:
 
     O usuário insere seu número de telefone celular, nome e senha.
-    O sistema envia um SMS com um código de verificação para o número de telefone celular do usuário.
-    O usuário insere o código de verificação na validação do cadastro.
-    O sistema verifica o código de verificação e cria uma conta de usuário para o usuário.
-    O sistema envia uma mensagem de confirmação para o número de telefone celular do usuário.
 
 Pós-condições:
 
-    O usuário está cadastrado com sucesso e logado no sistema.
+    Um token é enviado por sms para o número do usuário.
+
+### Verificação de Telefone
+
+Atores:
+
+    Usuário
+
+Pré-condições:
+
+    O usuário iniciou o cadastro.
+
+Fluxo:
+
+    O sistema envia um SMS com um código de verificação para o número de telefone celular do usuário.
+    O usuário insere o código de verificação e o número do telefone na validação do cadastro.
+    O sistema verifica o código de verificação e confirma a conta do usuário.
+
+Pós-condições:
+
+    O usuário está cadastrado com sucesso.
 
 ### Enviar Mensagem
 
@@ -58,7 +74,7 @@ Fluxo:
     O remetente compõe uma mensagem e insere o número de telefone celular do destinatário na tela de composição de mensagem.
     O sistema verifica a mensagem em busca de palavrões e linguagem ofensiva.
     Se a mensagem estiver limpa, o sistema a envia ao destinatário.
-    Se a mensagem contiver palavrões ou linguagem ofensiva, o sistema exibe uma mensagem de erro para o remetente, censura a mensagem e a envia.
+    Se a mensagem contiver palavrões ou linguagem ofensiva, o sistema exibe uma mensagem de alerta para o remetente, censura a mensagem e a envia.
 
 Pós-condições:
 
