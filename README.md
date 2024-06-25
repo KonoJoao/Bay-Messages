@@ -281,7 +281,7 @@ Body da Resposta
     {
         "status": 200,
         "mensagem": "Logado",
-        "token": "" //insere token válido
+        "token": ""
     }
 ```
 ### GET mensagens de um chat
