@@ -224,6 +224,20 @@ Representa o módulo que faz a análise do conteúdo das mensagens e sua persist
 
 ### POST registrar
     http://localhost:3000/registrar
+
+    Body da Requisição
+    {
+        "telefone": 62995559111,
+        "nome": "João Vitor",
+        "senha": 123456
+    }
+    
+    Body da Resposta
+    {
+    "status": 200,
+    "mensagem": "Um código de validação foi enviado para seu telefone"
+    }
+    
 ### POST confirmar registro
     http://localhost:3000/registrar/confirmar
 ### POST logar
