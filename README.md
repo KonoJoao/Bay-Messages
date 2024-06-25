@@ -238,7 +238,7 @@ Body da Resposta
 ```json
 
     {
-        "status": 200,
+        "status": 201,
         "mensagem": "Um código de validação foi enviado para seu telefone"
     }
 ```
@@ -248,7 +248,6 @@ Body da Resposta
 ### POST logar
     http://localhost:3000/login 
 ### GET mensagens de um chat
-
     http://localhost:3000/chat/{id}
 
 Body da Resposta
@@ -327,17 +326,107 @@ Body da Resposta
     }
 ```
 ### PUT mensagem
-    http://localhost:3000/chat/{id} 
+    http://localhost:3000/chat/{id}
+    
+Body da Requisição
+```json
+    {
+        "mensagem": "Oii",
+        "autor": 62995559111
+    }
+```
+
+Body da Resposta
+```json
+    {
+        "mensagem": "mensagem editada com sucesso",
+        "status": 200
+    }
+```
+    
 ### DELETE mensagem
     http://localhost:3000/chat/{id} 
+
+Body da Resposta
+```json
+    {
+        "status": 200
+    }
+```
 ### POST denunciar mensagem
-    http://localhost:3000/chat/denunciar/mensagem/{id} 
+    http://localhost:3000/chat/denunciar/mensagem
+
+Body da Requisição
+```json
+    {
+        "idMensagem": 193249849,
+        "denunciante": 62995559333
+    }
+```
+
+Body da Resposta
+```json
+    {
+        "mensagem": "Mensagem denunciada com sucesso",
+        "status": 201
+    }
+```
+    
 ### POST denunciar usuário
-    http://localhost:3000/chat/denunciar/usuario/{usuario} 
-### POST adicionar usuário no grupo
-    http://localhost:3000/chat/adicionar/{usuario} 
-### POST remover usuário do grupo
-    http://localhost:3000/chat/remover/{usuario} 
+    http://localhost:3000/chat/denunciar/usuario
+
+Body da Requisição
+```json
+    {
+        "denunciado": 62995559111,
+        "denunciante": 62995559333
+    }
+```
+
+Body da Resposta
+```json
+    {
+        "mensagem": "Usuario denunciado com sucesso",
+        "status": 201
+    }
+```
+### PATCH adicionar usuário no grupo
+    http://localhost:3000/chat/adicionar
+
+
+Body da Requisição
+```json
+    {
+        "Administrador": 62995559111,
+        "novoMembro": 62995559333
+    }
+```
+
+Body da Resposta
+```json
+    {
+        "mensagem": "Usuario adicionado com sucesso",
+        "status": 200
+    }
+```
+### PATCH remover usuário do grupo
+    http://localhost:3000/chat/remover
+    
+Body da Requisição
+```json
+    {
+        "Administrador": 62995559111,
+        "membro": 62995559333
+    }
+```
+
+Body da Resposta
+```json
+    {
+        "mensagem": "Usuario adicionado com sucesso",
+        "status": 200
+    }
+```
 
 ## Testes
 vazio, por enquanto.
