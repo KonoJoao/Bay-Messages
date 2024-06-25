@@ -250,9 +250,10 @@ Body da Requisição
 ```json
     {
         "telefone": 62995559111,
-        "token": ""
+        "codigo": ""
     }
 ```
+
 Body da Resposta
 
 ```json
@@ -280,11 +281,18 @@ Body da Resposta
     {
         "status": 200,
         "mensagem": "Logado",
-        "token": ""
+        "token": "" //insere token válido
     }
 ```
 ### GET mensagens de um chat
     http://localhost:3000/chat/{id}
+
+Headers
+```json
+    {
+        "token": "" //insere token válido  
+    }
+```
 
 Body da Resposta
 ```json
@@ -309,6 +317,8 @@ Body da Resposta
 }
 ```
 
+
+
 ### POST enviar mensagem
     http://localhost:3000/chat 
 
@@ -317,6 +327,12 @@ Body da Requisição
     {
         "mensagem": "Oii",
         "autor": 62995559111
+    }
+```
+Headers
+```json
+    {
+        "token": "" //insere token válido  
     }
 ```
 
@@ -329,8 +345,15 @@ Body da Resposta
 ```
     
     
-### GET mensagens troacadas entre o client e outro usuário
+### GET mensagens trocadas entre o client e outro usuário
     http://localhost:3000/chat?from={usuario}&to={client}
+
+Headers
+```json
+    {
+        "token": "" //insere token válido  
+    }
+```
 
 Body da Resposta
 ```json
@@ -361,8 +384,17 @@ Body da Resposta
       ]
     }
 ```
+
+
 ### PUT mensagem
     http://localhost:3000/chat/{id}
+
+Headers
+```json
+    {
+        "token": "" //insere token válido  
+    }
+```
     
 Body da Requisição
 ```json
@@ -383,6 +415,13 @@ Body da Resposta
 ### DELETE mensagem
     http://localhost:3000/chat/{id} 
 
+Headers
+```json
+    {
+        "token": "" //insere token válido  
+    }
+```
+
 Body da Resposta
 ```json
     {
@@ -392,11 +431,20 @@ Body da Resposta
 ### POST denunciar mensagem
     http://localhost:3000/chat/denunciar/mensagem
 
+
+
 Body da Requisição
 ```json
     {
         "idMensagem": 193249849,
         "denunciante": 62995559333
+    }
+```
+
+Headers
+```json
+    {
+        "token": "" //insere token válido  
     }
 ```
 
@@ -418,6 +466,12 @@ Body da Requisição
         "denunciante": 62995559333
     }
 ```
+Headers
+```json
+    {
+        "token": "" //insere token válido  
+    }
+```
 
 Body da Resposta
 ```json
@@ -437,6 +491,12 @@ Body da Requisição
         "novoMembro": 62995559333
     }
 ```
+Headers
+```json
+    {
+        "token": "" //insere token válido  
+    }
+```
 
 Body da Resposta
 ```json
@@ -453,6 +513,12 @@ Body da Requisição
     {
         "Administrador": 62995559111,
         "membro": 62995559333
+    }
+```
+Headers
+```json
+    {
+        "token": "" //insere token válido  
     }
 ```
 
