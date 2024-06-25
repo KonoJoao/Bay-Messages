@@ -245,8 +245,44 @@ Body da Resposta
     
 ### POST confirmar registro
     http://localhost:3000/registrar/confirmar
+Body da Requisição
+
+```json
+    {
+        "telefone": 62995559111,
+        "token": ""
+    }
+```
+Body da Resposta
+
+```json
+
+    {
+        "status": 200,
+        "mensagem": "Cadastro confirmado com sucesso"
+    }
+```
 ### POST logar
-    http://localhost:3000/login 
+    http://localhost:3000/login
+
+Body da Requisição
+
+```json
+    {
+        "telefone": 62995559111,
+        "senha": 123456
+    }
+```
+Body da Resposta
+
+```json
+
+    {
+        "status": 200,
+        "mensagem": "Logado",
+        "token": ""
+    }
+```
 ### GET mensagens de um chat
     http://localhost:3000/chat/{id}
 
