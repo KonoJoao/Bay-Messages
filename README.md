@@ -220,6 +220,33 @@ Representa as mensagens enviadas em um chat. Está relacionada ao chat em que fo
 ### Classe AnalisadorDeMensagem
 Representa o módulo que faz a análise do conteúdo das mensagens e sua persistência no banco de dados.
 
+## Endpoints
+
+### POST registrar
+    http://localhost:3000/registrar
+### POST confirmar registro
+    http://localhost:3000/registrar/confirmar
+### POST logar
+    http://localhost:3000/login 
+### GET mensagens de um chat
+    http://localhost:3000/chat
+### POST enviar mensagem
+    http://localhost:3000/chat 
+### GET mensagens enviadas entre o cliente e outro usuário
+    http://localhost:3000/chat/{usuario} 
+### PUT mensagem
+    http://localhost:3000/chat/{id} 
+### DELETE mensagem
+    http://localhost:3000/chat/{id} 
+### POST denunciar mensagem
+    http://localhost:3000/chat/denunciar/mensagem/{id} 
+### POST denunciar usuário
+    http://localhost:3000/chat/denunciar/usuario/{usuario} 
+### POST adicionar usuário no grupo
+    http://localhost:3000/chat/adicionar/{usuario} 
+### POST remover usuário do grupo
+    http://localhost:3000/chat/remover/{usuario} 
+
 ## Testes
 vazio, por enquanto.
 ## Gerencia de configuração
