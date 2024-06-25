@@ -531,6 +531,373 @@ Body da Resposta
 ```
 
 ## Testes
-vazio, por enquanto.
+### CT1: "Cadastro de Usuário com dados corretos com telefone válido"
+### Entrada:
+
+```json
+    {       
+        "nome":"Mateus Henrique",
+        "celular": 62991919191,
+        "senha": "teste123"
+    }
+```
+### Saída:  
+```json
+
+    {
+        "status":true,
+        "message":"Um sms foi enviado a 62991919191 com um código de verificação!"
+    }
+```
+
+### CT2: "Cadastro de Usuário com dados corretos mas com telefone inválido"
+### Entrada:
+```json
+    {       
+        "nome":"Mateus Henrique",
+        "calular": 62900000000,
+        "senha": "teste123"
+    }
+```
+### Saída:  
+```json
+    {
+        "status":false,
+        "message":"Número de telefone inválido!"
+    }
+```
+
+### CT3: "código de verificação convergente ao enviado via SMS"
+### Entrada:
+```json
+    {       
+        "codigo":1234,
+        "calular":62991919191 
+    }
+```
+
+### Saída:  
+```json
+   {
+        "status":true,
+        "token":"kxhggfxuvjiodvijxivub27w67btsve6cacxg7",
+        "message":"Código válido!"
+    }
+```
+
+### CT4: "código de verificação divergente ao enviado via SMS"
+### Entrada:
+```json
+{       
+        "codigo":1000,
+        "calular":62991919191 
+    }
+```
+### Saída:  
+```json
+    {
+        "status":false,
+        "message":"Código inválido!"
+    } 
+```
+
+### CT5:"Envio de mensagem dentro dos padrões de uso"
+### Entrada:
+```json
+{   
+        "token":"kxhggfxuvjiodvijxivub27w67btsve6cacxg7",
+        "mensagem":"Olá usuário A",
+        "to":62992929292,
+        "from":62991919191 
+    }
+```
+
+### Saída:  
+```json
+    {
+        "status":true,
+        "send":"OK",
+        "message":"Mensagem enviada!"
+    } 
+```
+
+### CT6:"Envio de mensagem parcialmente aplicando os padrões de uso"
+### Entrada:
+```json
+    {   
+        "token":"kxhggfxuvjiodvijxivub27w67btsve6cacxg7",
+        "mensagem":"Fiz merda com o trabalho da escola!",
+        "to":62992929292,
+        "from":62991919191 
+    }
+```
+### Saída:  
+```json
+{
+        "status":true,
+        "flagContentController":"MEDIUM",
+        "mensagemRemaped": "Fiz m**** com o trabalho da escola!",
+        "message":"Mensagem enviada!"
+    } 
+```
+
+### CT7:"Envio de mensagem fora dos padrões de uso"
+### Entrada:
+```json
+    {       
+        "token":"kxhggfxuvjiodvijxivub27w67btsve6cacxg7",
+        "mensagem":"Seu idiota imprestável!",
+        "to":62992929292,
+        "from":62991919191 
+    }
+```
+
+### Saída:  
+```json
+    {
+        "status":false,
+        "flagContentController":"OFFENSIVE",
+        "mensagemRemaped": "Inflige a política de uso!",
+        "message":"Mensagem não enviada!"
+    } 
+```
+
+### CT8:"Visualizar mensagens enviadas fornecendo um token e identificação do chat válidos"
+### Entrada:
+```json
+    {       
+        "chatId":3,
+        "token":"afjayeg343fysheufha8nef23456aeksbyvyvubnizc",
+        "tokenAcess":"kxhggfxuvjiodvijxivub27w67btsve6cacxg7"
+    }
+```
+
+### Saída:  
+```json
+    {
+        "status":true,
+        "message":"Chat encontrado!",
+        "messages":[
+            {
+                "message":"Olá, bom dia!",
+                "time": "12/03/2023 14:20",
+                "seen": true,
+            },  {
+                "message":"Olá, como vai?",
+                "time": "12/03/2023 14:22",
+                "seen": true,
+            },  {
+                "message":"Tudo certo",
+                "time": "12/03/2023 14:24",
+                "seen": true,
+            },  {
+                "from":62992929292,
+                "message":"boa...",
+                "time": "12/03/2023 14:25",
+                "seen": false,
+            }, 
+        ]
+    }
+```
+
+### CT9:"Acessar um chat clandestinamente, mas com token de acesso inválido"
+### Entrada:
+```json
+{       
+        "chatId":3,
+        "token":"afjayeg343fysheufha8nef23456aeksbyvyvubnizc",
+        "tokenAcess": "testeteste"
+    }
+```
+### Saída:  
+```json
+    {
+        "status":false,
+        "message":"Você não tem permisão para acessar esse conteúdo!"
+    } 
+```
+
+### CT10:"Denunciar usuário ou mensagem considerada ofensiva"
+### Entrada:
+```json
+{   
+        "token":"kxhggfxuvjiodvijxivub27w67btsve6cacxg7",
+        "userId":12,
+        "mensagemId":157,
+        "text":"Seu imbecil",   
+        "motivo":"Uso de palavras de baixo calão"
+    }
+```
+### Saída:  
+```json
+    {
+        "status":true,
+        "message":"Mensagem denunciada com sucesso!"
+    }
+```
+
+### CT11:"Denunciar usuário ou mensagem considerada inofensiva"
+### Entrada:
+```json
+{   
+        "token":"kxhggfxuvjiodvijxivub27w67btsve6cacxg7",
+        "userId":12,
+        "mensagemId":156,
+        "text":"Olá, bom dia",
+        "motivo":"Uso de palavras de baixo calão"
+    }
+```
+### Saída:  
+```json
+{
+        "status":false,
+        "message":"Indícios insuficientes para denúncia!"
+    }
+```
+
+### CT12:"Criar grupo com números de telefone válidos e existentes"
+### Entrada:
+```json
+{   
+        "token":"kxhggfxuvjiodvijxivub27w67btsve6cacxg7",
+        "nomeGrupo":"Grupo da TI",
+        "userAdmId":12,
+        "participantes":[
+            62997979797,//do criador
+            62998989898,
+            62997979797,
+        ]
+    }
+```
+### Saída:  
+```json
+{
+        "status":true,
+        "message":"Grupo criado com sucesso!"
+    }
+```
+
+### CT13:"Criar grupo com números de telefone inválidos ou não cadastrados"
+### Entrada:
+```json
+{   
+        "token":"kxhggfxuvjiodvijxivub27w67btsve6cacxg7",
+        "nomeGrupo":"Grupo da TI",
+        "userAdmId":12,
+        "participantes":[
+            62997979797,//do criador
+            6299,
+            62997979788,//não cadastrado
+        ]
+    }
+```
+### Saída:  
+```json
+{
+        "status":false,
+        "participantes":[
+            {
+                "telefone":6299,
+                "status": "invalid"
+            },
+            {
+                "telefone": 62990909090,
+                "status": "nonexistent"
+            }
+        ],
+        "message":"Revise os telefones!"
+    }
+```
+
+### CT14:"Adicionar números de telefone ao grupo"
+### Entrada:
+```json
+{   
+        "token":"kxhggfxuvjiodvijxivub27w67btsve6cacxg7",
+        "tokenAdm":"uaygbb7a1877anh9sda27oceq78he7cah78d67",
+        "userId":12,
+        "newParticipantes":[
+            62997979797,
+            62997966767,
+        ]
+    }
+```
+### Saída:  
+```json
+{
+        "status":true,
+        "participantes":[
+            {
+                "telefone":62997979797,
+                "status": "added"
+            },
+            {
+                "telefone": 62997966767,
+                "status": "added"
+            }
+        ]
+        "message":"Usuários adicionados com sucesso!"
+    }
+```
+
+### CT15:"Adicionar números de telefone ao grupo sem ser adiministrador"
+### Entrada:
+```json
+{   
+        "token":"kxhggfxuvjiodvijxivub27w67btsve6cacxg7",
+        "tokenAdm":"",
+        "userId":12,
+        "newParticipantes":[
+            62997979797
+        ]
+    }
+```
+### Saída:  
+```json
+{
+        "status":false,
+        "message":"Access Danied"
+    }
+```
+
+### CT16:"Remover número de telefone do grupo"
+### Entrada:
+```json
+{   
+        "token":"kxhggfxuvjiodvijxivub27w67btsve6cacxg7",
+        "tokenAdm":"uaygbb7a1877anh9sda27oceq78he7cah78d67",
+        "userId":12,
+        "removeParticipante": 62997979797
+        
+    }
+```
+
+### Saída:  
+```json
+{
+        "status":true,
+        "message":"Usuário removido com sucesso!"
+    }
+```
+
+### CT17:"Remover número de telefone que não faz parte do grupo"
+### Entrada:
+```json
+{   
+        "token":"kxhggfxuvjiodvijxivub27w67btsve6cacxg7",
+        "tokenAdm":"uaygbb7a1877anh9sda27oceq78he7cah78d67",
+        "userId":12,
+        "removeParticipante": 62997979791
+
+    }
+```
+### Saída:  
+```json
+    {
+        "status":false,
+        "message":"Usuário informado não está cadastrado no grupo ou é inválido!"
+    }
+```
+
 ## Gerencia de configuração
 vazio, por enquanto
