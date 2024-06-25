@@ -224,30 +224,108 @@ Representa o módulo que faz a análise do conteúdo das mensagens e sua persist
 
 ### POST registrar
     http://localhost:3000/registrar
+Body da Requisição
 
-    Body da Requisição
+```json
     {
         "telefone": 62995559111,
         "nome": "João Vitor",
         "senha": 123456
     }
-    
-    Body da Resposta
+```
+Body da Resposta
+
+```json
+
     {
-    "status": 200,
-    "mensagem": "Um código de validação foi enviado para seu telefone"
+        "status": 200,
+        "mensagem": "Um código de validação foi enviado para seu telefone"
     }
+```
     
 ### POST confirmar registro
     http://localhost:3000/registrar/confirmar
 ### POST logar
     http://localhost:3000/login 
 ### GET mensagens de um chat
-    http://localhost:3000/chat
+
+    http://localhost:3000/chat/{id}
+
+Body da Resposta
+```json
+{
+  "status": 200,
+  "mensagens": [
+    {
+      "mensagem": "Oii",
+      "Autor": {
+        "telefone": 62995559111,
+        "nome": "João Vitor"
+      }
+    },
+    {
+      "mensagem": "tudo bem?",
+      "Autor": {
+        "telefone": 62995559111,
+        "nome": "João Vitor"
+      }
+    }
+  ]
+}
+```
+
 ### POST enviar mensagem
     http://localhost:3000/chat 
-### GET mensagens enviadas entre o cliente e outro usuário
-    http://localhost:3000/chat/{usuario} 
+
+Body da Requisição
+```json
+    {
+        "mensagem": "Oii",
+        "autor": 62995559111
+    }
+```
+
+Body da Resposta
+```json
+    {
+        "mensagem": "Mensagem enviada com sucesso",
+        "status": 200
+    }
+```
+    
+    
+### GET mensagens troacadas entre o client e outro usuário
+    http://localhost:3000/chat?from={usuario}&to={client}
+
+Body da Resposta
+```json
+    {
+      "status": 200,
+      "mensagens": [
+        {
+          "mensagem": "Oii",
+          "Autor": {
+            "telefone": 62995559111,
+            "nome": "João Vitor"
+          }
+        },
+        {
+          "mensagem": "tudo bem?",
+          "Autor": {
+            "telefone": 62995559111,
+            "nome": "João Vitor"
+          }
+        },
+          {
+          "mensagem": "oiiiii",
+          "Autor": {
+            "telefone": 62995559333,
+            "nome": "Gabriel Borges"
+          }
+        }
+      ]
+    }
+```
 ### PUT mensagem
     http://localhost:3000/chat/{id} 
 ### DELETE mensagem
