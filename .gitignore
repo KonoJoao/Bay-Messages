@@ -1,0 +1,13 @@
+# Diretórios de build
+/dist
+/node_modules
+
+# Diretórios temporários
+/tmp
+/temp
+
+# Configurações do editor de código
+.vscode
+
+# Arquivos de ambiente
+.env
