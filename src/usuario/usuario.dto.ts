@@ -1,13 +1,14 @@
-export class Usuario {
+export class UsuarioDto {
   id: Number;
-  telefone: Number;
+  telefone: string;
   nome: string;
   senha: string;
   banidoAte: Date;
 
-  enviarMensagem = () => {};
-  realizarDenuncia = () => {};
-  logar = () => {};
-  validarToken = () => {};
-  gerarToken = () => {};
+  enviarMensagem = () => {}; //ainda não foi feito
+  realizarDenuncia = () => {}; //ainda não foi feito
+  logar = () => {}; //feito - está em auth
+  validarToken = () => {}; //está no método de login
+  gerarToken = () => {}; //está no método de login
+  cadastrar = () => {}; //feito
 }
