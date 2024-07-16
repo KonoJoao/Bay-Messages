@@ -900,4 +900,4 @@ Body da Resposta
 ```
 
 ## Estratégia de controle de versão
-vazio, por enquanto
+O controle de versão é feito por meio de funcionalidades ou adições ao código ou README. Seguindo o critério de não causar bugs a ser seguido.
