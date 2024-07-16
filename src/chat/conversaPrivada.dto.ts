@@ -1,3 +1,3 @@
-import { Chat } from "./chat.dto";
+import { ChatDto } from "./chat.dto";
 
-export class ConversaPrivada extends Chat {}
+export class ConversaPrivadaDto extends ChatDto {}

@@ -1,9 +1,9 @@
 import { UsuarioDto } from "src/usuario/usuario.dto";
-import { Chat } from "./chat.dto";
+import { ChatDto } from "./chat.dto";
 
-export class Grupo extends Chat {
+export class GrupoDto extends ChatDto {
   nome: string;
-  administrador: UsuarioDto;
+  administrador: string;
 
   adicionarUsuario = () => {};
 
