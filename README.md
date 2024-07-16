@@ -899,5 +899,5 @@ Body da Resposta
     }
 ```
 
-## Gerencia de configuração
+## Estratégia de controle de versão
 vazio, por enquanto
