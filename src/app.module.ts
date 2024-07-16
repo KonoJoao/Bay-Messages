@@ -6,10 +6,11 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import {DatabaseModule} from "./database/database.module";
 import { UsuarioModule } from "./usuario/usuario.module";
 import { AuthModule } from "./auth/auth.module";
+import { ModeradorService } from './moderador/moderador.service';
 
 @Module({
   imports: [ChatModule, UsuarioModule, DatabaseModule, AuthModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, ModeradorService],
 })
 export class AppModule {}
