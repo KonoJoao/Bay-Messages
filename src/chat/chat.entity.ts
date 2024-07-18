@@ -13,16 +13,16 @@ export class Chat {
   @PrimaryGeneratedColumn()
   id: Number;
 
-  @Column()
+  @ManyToMany(() => Usuario)
+  @JoinTable()
+  usuarios: Usuario[];
+
+  @Column({ default: false })
   flagGrupo: boolean = false;
 
   @Column()
   nome: string = "";
 
-  @ManyToMany(() => Usuario)
-  @JoinTable()
-  usuarios: Usuario[] = null;
-
-  @Column()
-  administrador: string;
+  @Column({ default: "" })
+  administrador: string = "";
 }
