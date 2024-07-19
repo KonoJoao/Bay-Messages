@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from "@nestjs/common";
 import { ChatService } from "./chat.service";
 import { ChatDto } from "./chat.dto";
 import { GrupoDto } from "./grupo.dto";
@@ -6,12 +14,16 @@ import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 import { ConversaPrivadaDto } from "./conversaPrivada.dto";
 
 @Controller("chat")
-@UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
 export class ChatController {
   constructor(private readonly chatService: ChatService) {}
   @Post("grupo")
   async cadastrarGrupo(@Body() novoChat: GrupoDto): Promise<any> {
     return await this.chatService.cadastrarGrupo(novoChat);
+  }
+  @Get("grupo/:id")
+  async listarMembros(@Param("id") id: Number): Promise<any> {
+    return await this.chatService.listarMembros(id);
   }
   @Post("adicionar")
   async adicionarMembro(

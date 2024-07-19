@@ -1,4 +1,11 @@
-import { Inject, Injectable } from "@nestjs/common";
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Chat } from "./chat.entity";
 import { Repository } from "typeorm";
@@ -18,26 +25,44 @@ export class ChatService {
   ) {}
 
   private async buscarChat(id: Number) {
-    return await this.chatRepository.findOne({
-      where: { id: id },
-      relations: ["usuarios"],
-    });
+    try {
+      const grupo = await this.chatRepository.findOne({
+        where: { id: id },
+        relations: ["usuarios"],
+      });
+      if (!grupo) {
+        throw new NotFoundException("Chat não encontrado.");
+      }
+      if (!grupo.flagGrupo) {
+        throw new BadRequestException("O chat buscado não é um grupo.");
+      }
+      return grupo;
+    } catch (error) {
+      throw new HttpException(
+        error.response || "Erro ao listar membros do grupo.",
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
+  }
+
+  async listarMembros(id: Number) {
+    return (await this.buscarChat(id)).usuarios;
   }
 
   async adicionarMembro(id: Number, telefone: string) {
     try {
       const chat = await this.buscarChat(id);
-      console.log(chat);
       const usuario: Usuario =
         await this.usuarioService.encontraPorTelefone(telefone);
-
-      if (!usuario || !chat) return;
 
       chat.usuarios.push(usuario);
 
       return await this.chatRepository.save(chat);
     } catch (e) {
-      console.error(e);
+      throw new HttpException(
+        e.response || "Erro ao adicionar membro",
+        e.status || HttpStatus.INTERNAL_SERVER_ERROR
+      );
     }
   }
 
@@ -47,13 +72,14 @@ export class ChatService {
       const usuario: Usuario =
         await this.usuarioService.encontraPorTelefone(telefone);
 
-      if (!usuario || !chat) return;
-
       chat.usuarios = chat.usuarios.filter((element) => element !== usuario);
 
       return await this.chatRepository.save(chat);
     } catch (e) {
-      console.error(e);
+      throw new HttpException(
+        e.response || "Erro ao remover membro do grupo",
+        e.status || HttpStatus.INTERNAL_SERVER_ERROR
+      );
     }
   }
 
@@ -63,7 +89,6 @@ export class ChatService {
       const usuario: Usuario = await this.usuarioService.encontraPorTelefone(
         chat.administrador
       );
-      if (!usuario) return;
 
       newChat.flagGrupo = true;
       newChat.nome = chat.nome;
@@ -72,7 +97,10 @@ export class ChatService {
 
       return await this.chatRepository.save(newChat);
     } catch (e) {
-      console.error(e);
+      throw new HttpException(
+        e.response || "Erro ao cadastrar grupo",
+        e.status || HttpStatus.INTERNAL_SERVER_ERROR
+      );
     }
   }
 
@@ -93,7 +121,10 @@ export class ChatService {
 
       return await this.chatRepository.save(newChat);
     } catch (e) {
-      console.error(e);
+      throw new HttpException(
+        e.response || "Erro ao cadastrar conversa privada",
+        e.status || HttpStatus.INTERNAL_SERVER_ERROR
+      );
     }
   }
 }
