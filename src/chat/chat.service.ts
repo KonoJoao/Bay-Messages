@@ -106,7 +106,7 @@ export class ChatService {
 
   async cadastrarConversaPrivada(chat: ConversaPrivadaDto) {
     try {
-      const newChat = new Chat();
+      var newChat = new Chat();
       const usuario1: Usuario = await this.usuarioService.encontraPorTelefone(
         chat.usuarioDe
       );
@@ -114,10 +114,9 @@ export class ChatService {
       const usuario2: Usuario = await this.usuarioService.encontraPorTelefone(
         chat.usuarioPara
       );
-
       if (!usuario1 || !usuario2) return;
 
-      newChat.usuarios.push(usuario1, usuario2);
+      newChat.usuarios = [usuario1, usuario2];
 
       return await this.chatRepository.save(newChat);
     } catch (e) {
