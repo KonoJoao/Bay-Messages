@@ -1,10 +1,11 @@
+import { Message } from "src/message/message.entity";
 import { Usuario } from "src/usuario/usuario.entity";
 import {
   Column,
   Entity,
   PrimaryGeneratedColumn,
   ManyToMany,
-  OneToOne,
+  OneToMany,
   JoinTable,
 } from "typeorm";
 
@@ -16,6 +17,10 @@ export class Chat {
   @ManyToMany(() => Usuario)
   @JoinTable()
   usuarios: Usuario[];
+
+  
+  @OneToMany(() => Message, message => message.chat)
+  message: Message[];
 
   @Column({ default: false })
   flagGrupo: boolean = false;

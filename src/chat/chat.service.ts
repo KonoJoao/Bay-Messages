@@ -24,12 +24,12 @@ export class ChatService {
     private readonly chatRepository: Repository<Chat>
   ) {}
 
-  private async buscarChat(id: Number) {
+  async buscarChat(id: Number) {
     try {
-      const grupo = await this.chatRepository.findOne({
-        where: { id: id },
-        relations: ["usuarios"],
-      });
+    const grupo = await this.chatRepository.findOne({
+      where: { id: id }, // Usando um alias 'chat' para especificar a tabela
+      relations: ["usuarios"],
+    });
       if (!grupo) {
         throw new NotFoundException("Chat não encontrado.");
       }
@@ -38,6 +38,7 @@ export class ChatService {
       }
       return grupo;
     } catch (error) {
+     
       throw new HttpException(
         error.response || "Erro ao listar membros do grupo.",
         error.status || HttpStatus.INTERNAL_SERVER_ERROR

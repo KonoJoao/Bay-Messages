@@ -4,6 +4,7 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 import { config } from "dotenv";
 import { Usuario } from "src/usuario/usuario.entity";
 import { Chat } from "src/chat/chat.entity";
+import { Message } from "src/message/message.entity";
 
 config();
 
@@ -18,7 +19,7 @@ config();
         username: process.env.DB_USERNAME,
         password: process.env.DB_PASSWORD,
         database: process.env.DB_DATABASE,
-        entities: [Usuario, Chat],
+        entities: [Usuario, Chat, Message],
         synchronize: true,
       }),
       inject: [ConfigService],
