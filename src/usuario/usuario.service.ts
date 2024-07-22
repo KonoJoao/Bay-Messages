@@ -1,14 +1,15 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { UsuarioDto } from './usuario.dto';
-import { Usuario } from './usuario.entity';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
+import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
+import { UsuarioDto } from "./usuario.dto";
+import { Usuario } from "./usuario.entity";
+import { Repository } from "typeorm";
+import { InjectRepository } from "@nestjs/typeorm";
+import { HttpErrorByCode } from "@nestjs/common/utils/http-error-by-code.util";
 
 @Injectable()
 export class UsuarioService {
   constructor(
     @InjectRepository(Usuario)
-    private readonly usuarioRepository: Repository<Usuario>,
+    private readonly usuarioRepository: Repository<Usuario>
   ) {}
 
   async cadastrar(usuarioDto: UsuarioDto): Promise<any> {
@@ -23,8 +24,18 @@ export class UsuarioService {
   }
 
   async encontraPorTelefone(telefone: string): Promise<any> {
-    return await this.usuarioRepository.findOne({ where: { telefone } });
-}
+    try {
+      const usuario = await this.usuarioRepository.findOne({
+        where: { telefone },
+      });
+      if (!usuario)
+        throw new HttpException("Usuário não encontrado", HttpStatus.NOT_FOUND);
+      return usuario;
+    } catch (e) {
+      e.response || "Erro ao buscar usuário",
+        e.status || HttpStatus.INTERNAL_SERVER_ERROR;
+    }
+  }
 
   async listarTodos(): Promise<any> {
     return await this.usuarioRepository.find();

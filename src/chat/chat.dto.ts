@@ -1,6 +1,6 @@
-export abstract class Chat {
-  id: Number;
+import { UsuarioDto } from "src/usuario/usuario.dto";
 
+export abstract class ChatDto {
   adicionarMensagem = () => {};
 
   listarMensagens = () => {};

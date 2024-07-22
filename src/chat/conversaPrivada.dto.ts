@@ -1,3 +1,7 @@
-import { Chat } from "./chat.dto";
+import { Usuario } from "src/usuario/usuario.entity";
+import { ChatDto } from "./chat.dto";
 
-export class ConversaPrivada extends Chat {}
+export class ConversaPrivadaDto extends ChatDto {
+  usuarioDe: string;
+  usuarioPara: string;
+}
