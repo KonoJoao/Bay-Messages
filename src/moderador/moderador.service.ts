@@ -1,7 +1,6 @@
-import { Injectable } from "@nestjs/common";
-import { Repository } from "typeorm";
+import { Inject, Injectable } from "@nestjs/common";
 import ArrayPalavrasCensuradas from "./palavrasCensuradas";
-import ChatEntity from "../chat/chat.entity";
+import { ChatService } from "src/chat/chat.service";
 
 enum MotivosDenuncia {
   CONTATO = "CONTATO INDESEJADO",
@@ -16,10 +15,10 @@ interface ReturnSchema {
   };
   message: string;
 }
-
 @Injectable()
 export class ModeradorService {
-  constructor(private readonly chatService: Repository<ChatEntity>) {}
+  constructor(    @Inject()
+  private readonly chatService: ChatService) {}
 
   removerCaracteresEspeciais(texto: string) {
     texto = texto.replace(/[^\w\s]/gi, "");
@@ -84,7 +83,7 @@ export class ModeradorService {
         }
 
       case "SPAM":
-        const messages = this.chatService.query(
+        const messages = this.chatService.executeQuery(
           `SELECT * FROM item WHERE createdAt >= NOW() - INTERVAL 1 HOUR`
         );
         // if(messages.map((mensagem)=>))

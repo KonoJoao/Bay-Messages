@@ -8,10 +8,11 @@ import { UsuarioModule } from "./usuario/usuario.module";
 import { AuthModule } from "./auth/auth.module";
 import { ModeradorService } from './moderador/moderador.service';
 import { MessageModule } from './message/message.module';
+import { ModeradorModule } from './moderador/moderador.module';
 
 @Module({
-  imports: [ChatModule, UsuarioModule, DatabaseModule, AuthModule, MessageModule],
+  imports: [ChatModule, UsuarioModule, DatabaseModule, AuthModule, MessageModule, ModeradorModule],
   controllers: [AppController],
-  providers: [AppService, ModeradorService],
+  providers: [AppService],
 })
 export class AppModule {}

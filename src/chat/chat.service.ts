@@ -24,6 +24,17 @@ export class ChatService {
     private readonly chatRepository: Repository<Chat>
   ) {}
 
+async executeQuery(sql:string){
+  try {
+    return await this.chatRepository.query(sql)
+  } catch (error) {
+    throw new HttpException(
+      error.response || "Erro ao executar sql",
+      error.status || HttpStatus.INTERNAL_SERVER_ERROR
+    );
+  }
+}
+
   async buscarChat(id: Number) {
     try {
     const grupo = await this.chatRepository.findOne({
