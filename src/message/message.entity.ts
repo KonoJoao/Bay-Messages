@@ -1,4 +1,3 @@
-
 import { Chat } from "src/chat/chat.entity";
 import {
   Column,
@@ -14,17 +13,15 @@ import {
 export class Message {
   @PrimaryGeneratedColumn()
   idMessage: Number;
- 
 
   @ManyToOne(() => Chat)
   @JoinTable()
   chat: Chat;
 
   @Column()
-  text: string ;
+  createdAt: Date;
   @Column()
-  telefone: string ;
-  
-
-
+  text: string;
+  @Column()
+  telefone: string;
 }
