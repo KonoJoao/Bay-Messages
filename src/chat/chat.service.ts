@@ -24,23 +24,24 @@ export class ChatService {
     private readonly chatRepository: Repository<Chat>
   ) {}
 
-async executeQuery(sql:string){
-  try {
-    return await this.chatRepository.query(sql)
-  } catch (error) {
-    throw new HttpException(
-      error.response || "Erro ao executar sql",
-      error.status || HttpStatus.INTERNAL_SERVER_ERROR
-    );
+  async executeQuery(sql: string) {
+    try {
+      return await this.chatRepository.query(sql);
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        error.response || "Erro ao executar sql",
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
   }
-}
 
   async buscarChat(id: Number) {
     try {
-    const grupo = await this.chatRepository.findOne({
-      where: { id: id }, // Usando um alias 'chat' para especificar a tabela
-      relations: ["usuarios"],
-    });
+      const grupo = await this.chatRepository.findOne({
+        where: { id: id }, // Usando um alias 'chat' para especificar a tabela
+        relations: ["usuarios"],
+      });
       if (!grupo) {
         throw new NotFoundException("Chat não encontrado.");
       }
@@ -49,7 +50,6 @@ async executeQuery(sql:string){
       }
       return grupo;
     } catch (error) {
-     
       throw new HttpException(
         error.response || "Erro ao listar membros do grupo.",
         error.status || HttpStatus.INTERNAL_SERVER_ERROR

@@ -17,8 +17,10 @@ interface ReturnSchema {
 }
 @Injectable()
 export class ModeradorService {
-  constructor(    @Inject()
-  private readonly chatService: ChatService) {}
+  constructor(
+    @Inject()
+    private readonly chatService: ChatService
+  ) {}
 
   removerCaracteresEspeciais(texto: string) {
     texto = texto.replace(/[^\w\s]/gi, "");
@@ -32,12 +34,12 @@ export class ModeradorService {
     return texto;
   }
 
-  verificarMensagem(
+  async verificarMensagem(
     mensagem: string,
     motivo: string,
     dataDenuncia: Date,
     chatId: number
-  ): ReturnSchema {
+  ): Promise<ReturnSchema> {
     const mensagemFormated = this.removerCaracteresEspeciais(mensagem);
     const dataBanimento = dataDenuncia;
     switch (motivo) {
@@ -53,8 +55,9 @@ export class ModeradorService {
 
       case "IMORALIDADE":
         const result = ArrayPalavrasCensuradas.find((item) =>
-          mensagemFormated.match(`/^((?!\b(${item})\b).)+$/`)
+          mensagemFormated.split(" ").some((parte) => parte == item.termo)
         );
+        console.log(result);
         if (!result) {
           return {
             status: false,
@@ -78,16 +81,17 @@ export class ModeradorService {
             banimento: {
               data: dataBanimento,
             },
-            message: `${result.termo[0]}${"*".repeat(result.termo.length)}`,
+            message: `${result.termo[0]}${"*".repeat(result.termo.length - 1)}`,
           };
         }
 
       case "SPAM":
-        const messages = this.chatService.executeQuery(
-          `SELECT * FROM item WHERE createdAt >= NOW() - INTERVAL 1 HOUR`
+        const messages = await this.chatService.executeQuery(
+          `SELECT * FROM message` // WHERE createdAt >= NOW() - INTERVAL 1 HOUR
         );
+        console.log(messages);
         // if(messages.map((mensagem)=>))
-        break;
+        return messages;
     }
   }
 }
