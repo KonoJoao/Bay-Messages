@@ -1,6 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 import ArrayPalavrasCensuradas from "./palavrasCensuradas";
 import { ChatService } from "src/chat/chat.service";
+import { Message } from "src/message/message.entity";
 
 enum MotivosDenuncia {
   CONTATO = "CONTATO INDESEJADO",
@@ -8,7 +9,7 @@ enum MotivosDenuncia {
   SPAM = "SPAM",
 }
 
-interface ReturnSchema {
+export interface ReturnSchema {
   status: boolean;
   banimento: {
     data?: Date;
@@ -38,7 +39,8 @@ export class ModeradorService {
     mensagem: string,
     motivo: string,
     dataDenuncia: Date,
-    chatId: number
+    chatId: number,
+    userId: number
   ): Promise<ReturnSchema> {
     const mensagemFormated = this.removerCaracteresEspeciais(mensagem);
     const dataBanimento = dataDenuncia;
@@ -87,11 +89,34 @@ export class ModeradorService {
 
       case "SPAM":
         const messages = await this.chatService.executeQuery(
-          `SELECT * FROM message` // WHERE createdAt >= NOW() - INTERVAL 1 HOUR
+          `
+          SELECT *
+          FROM message
+          WHERE 
+            chatId = ${chatId} AND
+            createdAt >= NOW() - INTERVAL 1 HOUR
+          `
         );
-        console.log(messages);
-        // if(messages.map((mensagem)=>))
-        return messages;
+        if (
+          messages.map((mensagem: Message) => mensagem.text == mensagemFormated)
+            .length > 10
+        ) {
+          dataBanimento.setHours(dataBanimento.getHours() + 1);
+          return {
+            status: true,
+            banimento: {
+              data: dataBanimento,
+            },
+            message: "Usuário banido por uma (1) hora!",
+          };
+        }
+        return {
+          status: false,
+          banimento: {
+            data: dataBanimento,
+          },
+          message: "Nenhuma inconformidade encontrada!",
+        };
     }
   }
 }

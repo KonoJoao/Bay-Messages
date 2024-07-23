@@ -1,16 +1,19 @@
-import { Controller, Get } from "@nestjs/common";
-import { ModeradorService } from "./moderador.service";
-
+import { Body, Controller, Post } from "@nestjs/common";
+import { ModeradorService, ReturnSchema } from "./moderador.service";
+import { BanimentoDto } from "./moderador.dto";
 @Controller("moderador")
 export class ModeradorController {
   constructor(private readonly moderadorService: ModeradorService) {}
-  @Get("info")
-  async buscar(): Promise<any> {
+
+  @Post("analisar-banimento")
+  async buscar(@Body() body: BanimentoDto): Promise<any> {
+    const { mensagem, motivo, dataDenuncia, chatId, userId } = body;
     return this.moderadorService.verificarMensagem(
-      "puta",
-      "IMORALIDADE",
-      new Date(),
-      1
+      mensagem,
+      motivo,
+      dataDenuncia,
+      chatId,
+      userId
     );
   }
 }
