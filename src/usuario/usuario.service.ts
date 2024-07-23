@@ -32,8 +32,10 @@ export class UsuarioService {
         throw new HttpException("Usuário não encontrado", HttpStatus.NOT_FOUND);
       return usuario;
     } catch (e) {
-      e.response || "Erro ao buscar usuário",
-        e.status || HttpStatus.INTERNAL_SERVER_ERROR;
+      throw new HttpException(
+        e.response || "Erro ao buscar usuário",
+        e.status || HttpStatus.INTERNAL_SERVER_ERROR
+      );
     }
   }
 

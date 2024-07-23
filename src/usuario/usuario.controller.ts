@@ -1,25 +1,23 @@
-import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
-import { UsuarioService } from './usuario.service';
-import { UsuarioDto } from './usuario.dto';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Controller, Get, Post, Body, UseGuards } from "@nestjs/common";
+import { UsuarioService } from "./usuario.service";
+import { UsuarioDto } from "./usuario.dto";
+import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 
-@Controller('usuario')
+@Controller("usuario")
 export class UsuarioController {
-  constructor(
-    private readonly usuarioService: UsuarioService,
-  ) {}
+  constructor(private readonly usuarioService: UsuarioService) {}
 
-  @Post('cadastrar')
+  @Post("cadastrar")
   cadastrar(@Body() usuarioDto: UsuarioDto): Promise<any> {
     return this.usuarioService.cadastrar(usuarioDto);
   }
 
-  @Get('encontraPorTelefone')
-  encontraPorTelefone(@Body() telefone: string): Promise<any> {
+  @Get("encontraPorTelefone")
+  encontraPorTelefone(@Body("telefone") telefone: string): Promise<any> {
     return this.usuarioService.encontraPorTelefone(telefone);
   }
 
-  @Get('listarTodos')
+  @Get("listarTodos")
   @UseGuards(JwtAuthGuard)
   listarTodos(): Promise<any> {
     return this.usuarioService.listarTodos();
