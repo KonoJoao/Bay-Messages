@@ -8,12 +8,20 @@ export class ModeradorController {
   @Post("analisar-banimento")
   async buscar(@Body() body: BanimentoDto): Promise<any> {
     const { mensagem, motivo, dataDenuncia, chatId, userId } = body;
-    return this.moderadorService.verificarMensagem(
+    const response = await this.moderadorService.verificarMensagem(
       mensagem,
       motivo,
       dataDenuncia,
-      chatId,
-      userId
+      chatId
     );
+    if (response.status) {
+      //usuário com penalidade
+      return this.moderadorService.banirUsuario({
+        id: userId,
+        banidoAte: response.banimento.data,
+      });
+    }
+
+    return response.message;
   }
 }

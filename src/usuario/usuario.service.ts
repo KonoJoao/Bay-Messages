@@ -23,6 +23,10 @@ export class UsuarioService {
     return usuarioSalvo;
   }
 
+  async atualizar(usuarioDto: Partial<UsuarioDto>): Promise<any> {
+    return await this.usuarioRepository.update(usuarioDto.id, usuarioDto);
+  }
+
   async encontraPorTelefone(telefone: string): Promise<any> {
     try {
       const usuario = await this.usuarioRepository.findOne({

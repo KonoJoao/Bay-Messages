@@ -2,6 +2,8 @@ import { Inject, Injectable } from "@nestjs/common";
 import ArrayPalavrasCensuradas from "./palavrasCensuradas";
 import { ChatService } from "src/chat/chat.service";
 import { Message } from "src/message/message.entity";
+import { UsuarioService } from "src/usuario/usuario.service";
+import { UsuarioDto } from "src/usuario/usuario.dto";
 
 enum MotivosDenuncia {
   CONTATO = "CONTATO INDESEJADO",
@@ -20,8 +22,13 @@ export interface ReturnSchema {
 export class ModeradorService {
   constructor(
     @Inject()
-    private readonly chatService: ChatService
+    private readonly chatService: ChatService,
+    private readonly usuarioService: UsuarioService
   ) {}
+
+  async banirUsuario(partialData?: Partial<UsuarioDto>) {
+    return await this.usuarioService.atualizar(partialData);
+  }
 
   removerCaracteresEspeciais(texto: string) {
     texto = texto.replace(/[^\w\s]/gi, "");
@@ -39,8 +46,7 @@ export class ModeradorService {
     mensagem: string,
     motivo: string,
     dataDenuncia: Date,
-    chatId: number,
-    userId: number
+    chatId: number
   ): Promise<ReturnSchema> {
     const mensagemFormated = this.removerCaracteresEspeciais(mensagem);
     const dataBanimento = dataDenuncia;
@@ -59,7 +65,6 @@ export class ModeradorService {
         const result = ArrayPalavrasCensuradas.find((item) =>
           mensagemFormated.split(" ").some((parte) => parte == item.termo)
         );
-        console.log(result);
         if (!result) {
           return {
             status: false,

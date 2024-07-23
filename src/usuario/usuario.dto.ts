@@ -1,5 +1,5 @@
 export class UsuarioDto {
-  id: Number;
+  id: number;
   telefone: string;
   nome: string;
   senha: string;
