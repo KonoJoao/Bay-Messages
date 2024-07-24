@@ -26,9 +26,9 @@ export class ModeradorService {
     private readonly usuarioService: UsuarioService
   ) {}
 
-  async banirUsuario(partialData?: Partial<UsuarioDto>) {
-    return await this.usuarioService.atualizar(partialData);
-  }
+  // async banirUsuario(partialData: Partial<UsuarioDto>) {
+  //   return await this.usuarioService.atualizar(partialData);
+  // }
 
   removerCaracteresEspeciais(texto: string) {
     texto = texto.replace(/[^\w\s]/gi, "");

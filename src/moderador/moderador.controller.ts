@@ -15,11 +15,11 @@ export class ModeradorController {
       chatId
     );
     if (response.status) {
-      //usuário com penalidade
-      return this.moderadorService.banirUsuario({
-        id: userId,
-        banidoAte: response.banimento.data,
-      });
+      // //usuário com penalidade
+      // return this.moderadorService.banirUsuario({
+      //   id: userId,
+      //   banidoAte: response.banimento.data,
+      // });
     }
 
     return response.message;

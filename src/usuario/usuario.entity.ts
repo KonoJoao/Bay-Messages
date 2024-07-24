@@ -17,4 +17,7 @@ export class Usuario {
 
   @Column({ nullable: true })
   banidoAte: Date;
+
+  @Column({ nullable: true })
+  codigoVerificacao: string;
 }

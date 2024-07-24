@@ -1,9 +1,10 @@
 export class UsuarioDto {
-  id: number;
+  id?: number;
   telefone: string;
   nome: string;
   senha: string;
   banidoAte: Date;
+  codigoVerificacao: string;
 
   enviarMensagem = () => {}; //ainda não foi feito
   realizarDenuncia = () => {}; //ainda não foi feito
