@@ -606,19 +606,28 @@ Body da Resposta
 ```json
 {   
         "token":"kxhggfxuvjiodvijxivub27w67btsve6cacxg7",
-        "mensagem":"Olá usuário A",
-        "to":62992929292,
-        "from":62991919191 
+        "text":"Olá usuário A",
+        "telefone":"62992929292",
+        "id": 2
     }
 ```
 
 ### Saída:  
 ```json
-    {
-        "status":true,
-        "send":"OK",
-        "message":"Mensagem enviada!"
-    } 
+{
+	"idMessage": 1,
+	"chat": {
+		"flagGrupo": true,
+		"nome": "testexb",
+		"administrador": "62985308972",
+		"id": 2,
+		"usuarios": []
+	},
+	"createdAt": "2024-07-26T14:39:58.118Z",
+	"text": "Olá usuário A",
+	"telefone": "62992929292",
+	"censurado": false
+}
 ```
 
 ### CT6:"Envio de mensagem parcialmente aplicando os padrões de uso"
@@ -626,19 +635,27 @@ Body da Resposta
 ```json
     {   
         "token":"kxhggfxuvjiodvijxivub27w67btsve6cacxg7",
-        "mensagem":"Fiz merda com o trabalho da escola!",
-        "to":62992929292,
-        "from":62991919191 
+        "text":"Fiz merda com o trabalho da escola",
+        "telefone":"62992929292",
+        "id": 2
     }
 ```
 ### Saída:  
 ```json
 {
-        "status":true,
-        "flagContentController":"MEDIUM",
-        "mensagemRemaped": "Fiz m**** com o trabalho da escola!",
-        "message":"Mensagem enviada!"
-    } 
+	"idMessage": 1,
+	"chat": {
+		"flagGrupo": true,
+		"nome": "testexb",
+		"administrador": "62985308972",
+		"id": 2,
+		"usuarios": []
+	},
+	"createdAt": "2024-07-26T14:39:58.118Z",
+	"text": "Fiz **** com o trabalho da escola",
+	"telefone": "62992929292",
+	"censurado": false
+}
 ```
 
 ### CT7:"Envio de mensagem fora dos padrões de uso"
@@ -646,9 +663,9 @@ Body da Resposta
 ```json
     {       
         "token":"kxhggfxuvjiodvijxivub27w67btsve6cacxg7",
-        "mensagem":"Seu idiota imprestável!",
-        "to":62992929292,
-        "from":62991919191 
+        "text":"Seu idiota imprestável!",
+        "telefone":"62992929292",
+        "id": 2
     }
 ```
 
@@ -666,18 +683,15 @@ Body da Resposta
 ### Entrada:
 ```json
     {       
-        "chatId":3,
-        "token":"afjayeg343fysheufha8nef23456aeksbyvyvubnizc",
-        "tokenAcess":"kxhggfxuvjiodvijxivub27w67btsve6cacxg7"
+        "id":2,
+        "token":"afjayeg343fysheufha8nef23456aeksbyvyvubnizc"
     }
 ```
 
 ### Saída:  
 ```json
     {
-        "status":true,
-        "message":"Chat encontrado!",
-        "messages":[
+        [
             {
                 "message":"Olá, bom dia!",
                 "time": "12/03/2023 14:20",
@@ -700,20 +714,18 @@ Body da Resposta
     }
 ```
 
-### CT9:"Acessar um chat clandestinamente, mas com token de acesso inválido"
+### CT9:"Acessar um chat clandestinamente"
 ### Entrada:
 ```json
 {       
-        "chatId":3,
+        "id":3,
         "token":"afjayeg343fysheufha8nef23456aeksbyvyvubnizc",
-        "tokenAcess": "testeteste"
     }
 ```
 ### Saída:  
 ```json
     {
-        "status":false,
-        "message":"Você não tem permisão para acessar esse conteúdo!"
+        "message":"O Usuário não está nesse chat!"
     } 
 ```
 
