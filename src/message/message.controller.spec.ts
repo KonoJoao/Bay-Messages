@@ -50,22 +50,6 @@ describe("MessageController", () => {
         {
           provide: MessageService,
           useValue: {
-            validarAcesso: jest.fn().mockResolvedValue({
-              flagGrupo: true,
-              nome: "testexb",
-              administrador: "62985308972",
-              id: 2,
-              usuarios: [
-                {
-                  id: 6,
-                  nome: "testet",
-                  telefone: "+5562985304972",
-                  senha: "asdwqdw",
-                  banidoAte: null,
-                  codigoVerificacao: "353360",
-                },
-              ],
-            }),
             cadastrarMessage: jest.fn().mockResolvedValue(messages[0]),
             buscarMessage: jest.fn().mockResolvedValue(messages),
             editarMessage: jest.fn().mockResolvedValue(messages[0]),

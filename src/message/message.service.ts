@@ -13,8 +13,8 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { MessageDto } from "./message.dto";
 import { UsuarioService } from "../usuario/usuario.service";
-import { Chat } from "src/chat/chat.entity";
-import { Usuario } from "src/usuario/usuario.entity";
+import { Chat } from "../chat/chat.entity";
+import { Usuario } from "../usuario/usuario.entity";
 
 @Injectable()
 export class MessageService {
@@ -32,6 +32,8 @@ export class MessageService {
       const usuario: Usuario =
         await this.usuarioService.encontraPorTelefone(telefone);
       const chat: Chat = await this.chatService.buscarChat(id);
+
+      console.log(usuario, chat);
 
       if (!chat.usuarios.some((element) => element.id === usuario.id))
         throw new UnauthorizedException("O usuário não está nesse chat!");
