@@ -5,11 +5,4 @@ export class UsuarioDto {
   senha: string;
   banidoAte: Date;
   codigoVerificacao: string;
-
-  enviarMensagem = () => {}; //ainda não foi feito
-  realizarDenuncia = () => {}; //ainda não foi feito
-  logar = () => {}; //feito - está em auth
-  validarToken = () => {}; //está no método de login
-  gerarToken = () => {}; //está no método de login
-  cadastrar = () => {}; //feito
 }

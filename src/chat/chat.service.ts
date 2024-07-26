@@ -5,14 +5,15 @@ import {
   Inject,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Chat } from "./chat.entity";
 import { Repository } from "typeorm";
 import { ChatDto } from "./chat.dto";
 import { GrupoDto } from "./grupo.dto";
-import { UsuarioService } from "src/usuario/usuario.service";
-import { Usuario } from "src/usuario/usuario.entity";
+import { UsuarioService } from "../usuario/usuario.service";
+import { Usuario } from "../usuario/usuario.entity";
 import { ConversaPrivadaDto } from "./conversaPrivada.dto";
 
 @Injectable()
@@ -45,9 +46,7 @@ export class ChatService {
       if (!grupo) {
         throw new NotFoundException("Chat não encontrado.");
       }
-      if (!grupo.flagGrupo) {
-        throw new BadRequestException("O chat buscado não é um grupo.");
-      }
+
       return grupo;
     } catch (error) {
       throw new HttpException(
@@ -64,6 +63,14 @@ export class ChatService {
   async adicionarMembro(id: Number, telefone: string) {
     try {
       const chat = await this.buscarChat(id);
+
+      if (!chat.flagGrupo) {
+        throw new BadRequestException("O chat buscado não é um grupo.");
+      }
+
+      if (!(chat.administrador === telefone))
+        throw new UnauthorizedException("Você não é administrador do grupo");
+
       const usuario: Usuario =
         await this.usuarioService.encontraPorTelefone(telefone);
 
@@ -81,6 +88,14 @@ export class ChatService {
   async removerMembro(id: Number, telefone: string) {
     try {
       var chat = await this.buscarChat(id);
+
+      if (!chat.flagGrupo) {
+        throw new BadRequestException("O chat buscado não é um grupo.");
+      }
+
+      if (!(chat.administrador === telefone))
+        throw new UnauthorizedException("Você não é administrador do grupo");
+
       const usuario: Usuario =
         await this.usuarioService.encontraPorTelefone(telefone);
 

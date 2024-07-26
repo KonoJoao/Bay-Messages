@@ -1,5 +1,5 @@
-import { Message } from "src/message/message.entity";
-import { Usuario } from "src/usuario/usuario.entity";
+import { Message } from "../message/message.entity";
+import { Usuario } from "../usuario/usuario.entity";
 import {
   Column,
   Entity,

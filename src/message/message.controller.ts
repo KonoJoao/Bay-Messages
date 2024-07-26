@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from "@nestjs/common";
 import { GrupoDto } from "src/chat/grupo.dto";
 import { MessageService } from "./message.service";
 import { MessageDto } from "./message.dto";
@@ -14,7 +23,25 @@ export class MessageController {
     return await this.messageService.cadastrarMessage(novoMessage, id);
   }
   @Get("/:id")
-  async buscarMessage(@Param("id") id: Number) {
-    return await this.messageService.buscarMessage(id);
+  async buscarMessage(
+    @Param("id") id: Number,
+    @Query("telefone") telefone: string
+  ) {
+    return await this.messageService.buscarMessage(id, telefone);
+  }
+  @Patch("/:id")
+  async editarMessage(
+    @Param("id") id: Number,
+    @Query("telefone") telefone: string,
+    @Query("text") text: string
+  ) {
+    return await this.messageService.editarMessage(id, telefone, text);
+  }
+  @Delete("/:id")
+  async deletarMessage(
+    @Param("id") id: Number,
+    @Query("telefone") telefone: string
+  ) {
+    return await this.messageService.deletarMessage(id, telefone);
   }
 }
