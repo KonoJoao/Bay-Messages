@@ -7,7 +7,13 @@ import { UsuarioService } from "../usuario/usuario.service";
 import { ChatService } from "../chat/chat.service";
 import { Usuario } from "../usuario/usuario.entity";
 import { Chat } from "../chat/chat.entity";
-import { BadRequestException, UnauthorizedException } from "@nestjs/common";
+import { Repository } from "typeorm";
+
+import {
+  BadRequestException,
+  HttpException,
+  UnauthorizedException,
+} from "@nestjs/common";
 
 const messages = [
   new MessageDto({
@@ -61,6 +67,7 @@ const acessoValidoTeste = {
 
 describe("MessageService", () => {
   let messageService: MessageService;
+  let messageRepository: Repository<Message>;
   let usuarioService: UsuarioService;
   let chatService: ChatService;
 
@@ -139,6 +146,7 @@ describe("MessageService", () => {
     messageService = module.get<MessageService>(MessageService);
     usuarioService = module.get<UsuarioService>(UsuarioService);
     chatService = module.get<ChatService>(ChatService);
+    messageRepository = module.get(getRepositoryToken(Message));
   });
 
   it("should be defined", () => {
@@ -162,13 +170,13 @@ describe("MessageService", () => {
       });
       //arrange
       jest
-        .spyOn(messageService, "cadastrarMessage")
+        .spyOn(messageService, "validarAcesso")
         .mockRejectedValueOnce(
           new UnauthorizedException("O usuário não está nesse chat!")
         );
       //assert
-      expect(messageService.cadastrarMessage(body, 2)).rejects.toThrow(
-        UnauthorizedException
+      expect(messageService.cadastrarMessage(body, 12)).rejects.toThrow(
+        HttpException
       );
     });
   });
@@ -184,13 +192,13 @@ describe("MessageService", () => {
     it("Visualizar mensagens enviadas sem estar no chat", () => {
       //arrange
       jest
-        .spyOn(messageService, "buscarMessage")
+        .spyOn(messageService, "validarAcesso")
         .mockRejectedValueOnce(
           new UnauthorizedException("O usuário não está nesse chat!")
         );
       //assert
       expect(messageService.buscarMessage(2, "+5562985304972")).rejects.toThrow(
-        UnauthorizedException
+        HttpException
       );
     });
   });
@@ -205,17 +213,13 @@ describe("MessageService", () => {
       expect(result).toEqual({ result: messages[0] });
       // expect(messageService.editarMessage).toHaveBeenCalledTimes(1);
     });
-    it("Editar mensagem fornecendo identificação inválida da mensagem", () => {
+    it("Editar mensagem fornecendo identificação inválida da mensagem", async () => {
       //arrange
-      jest
-        .spyOn(messageService, "editarMessage")
-        .mockRejectedValueOnce(
-          new BadRequestException("Mensagem não encontrada!")
-        );
+      jest.spyOn(messageRepository, "findOne").mockRejectedValueOnce(null);
       //assert
       expect(
-        messageService.editarMessage(1, "+5562985304972", "teste")
-      ).rejects.toThrow(BadRequestException);
+        messageService.editarMessage(3, "+5562985304972", "teste")
+      ).rejects.toThrow(HttpException);
     });
   });
 
@@ -227,15 +231,12 @@ describe("MessageService", () => {
     });
     it("Deletar mensagem fornecendo identificação inválida da mensagem", async () => {
       //arrange
-      jest
-        .spyOn(messageService, "deletarMessage")
-        .mockRejectedValueOnce(
-          new BadRequestException("Mensagem não encontrada!")
-        );
+      jest.spyOn(messageRepository, "findOne").mockRejectedValueOnce(null);
+
       //assert
       expect(
         messageService.deletarMessage(1, "+5562985304972")
-      ).rejects.toThrow(BadRequestException);
+      ).rejects.toThrow(HttpException);
     });
   });
 });

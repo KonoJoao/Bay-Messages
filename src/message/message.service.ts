@@ -98,8 +98,6 @@ export class MessageService {
       await this.validarAcesso(message.chat.id, telefone);
       return message;
     } catch (e) {
-      console.error(e);
-
       throw new HttpException(
         e.response || "Erro ao buscar mensagem",
         e.status || HttpStatus.INTERNAL_SERVER_ERROR
