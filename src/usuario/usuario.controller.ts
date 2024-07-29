@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, UseGuards, Patch, Delete } from "@nestjs/common";
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  UseGuards,
+  Patch,
+  Delete,
+} from "@nestjs/common";
 import { UsuarioService } from "./usuario.service";
 import { UsuarioDto } from "./usuario.dto";
 import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
@@ -24,7 +32,7 @@ export class UsuarioController {
   }
 
   @Post("enviarCodigoVerificacao")
-  enviarCodigoVerificacao(@Body("telefone") telefone: string): Promise<void> {
+  enviarCodigoVerificacao(@Body("telefone") telefone: string): Promise<any> {
     return this.usuarioService.enviarCodigoVerificacao(telefone);
   }
 

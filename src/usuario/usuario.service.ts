@@ -3,7 +3,7 @@ import { UsuarioDto } from "./usuario.dto";
 import { Usuario } from "./usuario.entity";
 import { Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
-import * as twilio from 'twilio';
+import * as twilio from "twilio";
 import { config } from "dotenv";
 
 config();
@@ -16,47 +16,65 @@ export class UsuarioService {
     @InjectRepository(Usuario)
     private readonly usuarioRepository: Repository<Usuario>
   ) {
-    const accountSid = process.env.ACCOUNT_SID
-    const authToken = process.env.AUTH_TOKEN
+    const accountSid = process.env.ACCOUNT_SID;
+    const authToken = process.env.AUTH_TOKEN;
     this.client = twilio(accountSid, authToken);
   }
 
-  async enviarCodigoVerificacao(telefone: string): Promise<void> {
+  async enviarCodigoVerificacao(telefone: string): Promise<any> {
     try {
-      await this.client.verify.v2.services(process.env.VERIFY_SID)
-        .verifications
-        .create({ to: telefone, channel: 'sms' });
+      await this.client.verify.v2
+        .services(process.env.VERIFY_SID)
+        .verifications.create({ to: "+5562985304972", channel: "sms" });
+      return { message: "sms enviado" };
     } catch (error) {
-      throw new HttpException('Erro ao enviar código de verificação', HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(
+        "Erro ao enviar código de verificação",
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
     }
   }
 
   async verificarCodigo(telefone: string, codigo: string): Promise<boolean> {
     try {
-      const verificationCheck = await this.client.verify.v2.services(process.env.VERIFY_SID)
-        .verificationChecks
-        .create({ to: telefone, code: codigo });
+      const verificationCheck = await this.client.verify.v2
+        .services(process.env.VERIFY_SID)
+        .verificationChecks.create({ to: "+5562985304972", code: codigo });
 
-      return verificationCheck.status === 'approved';
+      return verificationCheck.status === "approved";
     } catch (error) {
-      throw new HttpException('Erro ao verificar código', HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(
+        "Erro ao verificar código",
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
     }
   }
 
   async cadastrar(usuarioDto: UsuarioDto): Promise<any> {
     const telefoneRegex = /^\+55\d{11}$/;
     if (!telefoneRegex.test(usuarioDto.telefone)) {
-      throw new HttpException('Número de telefone inválido. O formato correto é +[código do país][número], por exemplo, +5511999999999', HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        "Número de telefone inválido. O formato correto é +[código do país][número], por exemplo, +5511999999999",
+        HttpStatus.BAD_REQUEST
+      );
     }
 
-    const usuarioExistente = await this.usuarioRepository.findOne({ where: { telefone: usuarioDto.telefone } });
+    const usuarioExistente = await this.usuarioRepository.findOne({
+      where: { telefone: usuarioDto.telefone },
+    });
     if (usuarioExistente) {
-      throw new HttpException('Telefone já cadastrado', HttpStatus.BAD_REQUEST);
+      throw new HttpException("Telefone já cadastrado", HttpStatus.BAD_REQUEST);
     }
 
-    const isVerified = await this.verificarCodigo(usuarioDto.telefone, usuarioDto.codigoVerificacao);
+    const isVerified = await this.verificarCodigo(
+      usuarioDto.telefone,
+      usuarioDto.codigoVerificacao
+    );
     if (!isVerified) {
-      throw new HttpException('Código de verificação inválido', HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        "Código de verificação inválido",
+        HttpStatus.BAD_REQUEST
+      );
     }
 
     const usuario = new Usuario();
@@ -64,37 +82,54 @@ export class UsuarioService {
     usuario.nome = usuarioDto.nome;
     usuario.senha = usuarioDto.senha;
     usuario.banidoAte = usuarioDto.banidoAte;
-    usuario.codigoVerificacao = usuarioDto.codigoVerificacao
+    usuario.codigoVerificacao = usuarioDto.codigoVerificacao;
 
     const usuarioSalvo = await this.usuarioRepository.save(usuario);
     return usuarioSalvo;
   }
 
   async atualizar(usuarioDto: UsuarioDto): Promise<any> {
-    const usuarioExistente = await this.usuarioRepository.findOne({ where: { id: usuarioDto.id } });
-  
+    const usuarioExistente = await this.usuarioRepository.findOne({
+      where: { id: usuarioDto.id },
+    });
+
     if (!usuarioExistente) {
-      throw new HttpException('Usuário não encontrado', HttpStatus.NOT_FOUND);
+      throw new HttpException("Usuário não encontrado", HttpStatus.NOT_FOUND);
     }
-  
+
     if (usuarioExistente.telefone !== usuarioDto.telefone) {
-      const telefoneExistente = await this.usuarioRepository.findOne({ where: { telefone: usuarioDto.telefone } });
+      const telefoneExistente = await this.usuarioRepository.findOne({
+        where: { telefone: usuarioDto.telefone },
+      });
       if (telefoneExistente) {
-        throw new HttpException('Telefone já cadastrado', HttpStatus.BAD_REQUEST);
+        throw new HttpException(
+          "Telefone já cadastrado",
+          HttpStatus.BAD_REQUEST
+        );
       }
-      const isVerified = await this.verificarCodigo(usuarioDto.telefone, usuarioDto.codigoVerificacao);
+      const isVerified = await this.verificarCodigo(
+        usuarioDto.telefone,
+        usuarioDto.codigoVerificacao
+      );
       if (!isVerified) {
-        throw new HttpException('Código de verificação inválido', HttpStatus.BAD_REQUEST);
+        throw new HttpException(
+          "Código de verificação inválido",
+          HttpStatus.BAD_REQUEST
+        );
       }
     }
-  
-    usuarioExistente.telefone = usuarioDto.telefone || usuarioExistente.telefone;
+
+    usuarioExistente.telefone =
+      usuarioDto.telefone || usuarioExistente.telefone;
     usuarioExistente.nome = usuarioDto.nome || usuarioExistente.nome;
     usuarioExistente.senha = usuarioDto.senha || usuarioExistente.senha;
-    usuarioExistente.banidoAte = usuarioDto.banidoAte || usuarioExistente.banidoAte;
-    usuarioExistente.codigoVerificacao = usuarioDto.codigoVerificacao || usuarioExistente.codigoVerificacao;
-  
-    const usuarioAtualizado = await this.usuarioRepository.save(usuarioExistente);
+    usuarioExistente.banidoAte =
+      usuarioDto.banidoAte || usuarioExistente.banidoAte;
+    usuarioExistente.codigoVerificacao =
+      usuarioDto.codigoVerificacao || usuarioExistente.codigoVerificacao;
+
+    const usuarioAtualizado =
+      await this.usuarioRepository.save(usuarioExistente);
     return usuarioAtualizado;
   }
 
@@ -150,5 +185,4 @@ export class UsuarioService {
       );
     }
   }
-
 }
