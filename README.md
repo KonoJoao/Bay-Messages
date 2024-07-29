@@ -767,148 +767,174 @@ Body da Resposta
     }
 ```
 
-### CT12:"Criar grupo com números de telefone válidos e existentes"
+### CT12: "Criar Grupo"
 ### Entrada:
 ```json
 {   
         "token":"kxhggfxuvjiodvijxivub27w67btsve6cacxg7",
-        "nomeGrupo":"Grupo da TI",
-        "userAdmId":12,
-        "participantes":[
-            62997979797,//do criador
-            62998989898,
-            62997979797,
-        ]
+        "nome":"Grupo da TI",
+        "administrador": "+5562985304972",
     }
 ```
 ### Saída:  
 ```json
 {
-        "status":true,
-        "message":"Grupo criado com sucesso!"
+	"flagGrupo": true,
+	"nome": "Grupo da TI",
+	"administrador": "+5562985304972",
+	"usuarios": [
+		{
+			"id": 1,
+			"nome": "testet",
+			"telefone": "+5562985304972",
+			"senha": "asdwqdw",
+			"banidoAte": null,
+			"codigoVerificacao": "353360"
+		}
+	],
+	"id": 1
+}
+```
+
+
+### CT13: "Adicionar membro com número de telefone válido"
+### Entrada:
+```json
+{   
+	"id":1,
+	"telefone": "+556299445911",
+	"administrador": "+5562985304972"
+    }
+```
+### Saída:  
+```json
+{
+	"flagGrupo": true,
+	"nome": "grupo teste",
+	"administrador": "+5562985304972",
+	"id": 1,
+	"usuarios": [
+		{
+			"id": 6,
+			"nome": "testet",
+			"telefone": "+5562985304972",
+			"senha": "asdwqdw",
+			"banidoAte": null,
+			"codigoVerificacao": "353360"
+		},
+		{
+			"id": 7,
+			"nome": "deftonerson",
+			"telefone": "+5562994459111",
+			"senha": "teste",
+			"banidoAte": null,
+			"codigoVerificacao": "666666"
+		}
+	]
+}
+```
+
+### CT14: "Adicionar membro com número de telefone inválido"
+### Entrada:
+```json
+{   
+	"id":13,
+	"telefone": "+556299445911",
+	"administrador": "+5562985304972"
+    }
+```
+### Saída:  
+```json
+{
+	"statusCode": 404,
+	"message": "Usuário não encontrado"
     }
 ```
 
-### CT13:"Criar grupo com números de telefone inválidos ou não cadastrados"
+### CT15:"Adicionar número de telefone ao grupo sem ser administrador"
 ### Entrada:
 ```json
-{   
-        "token":"kxhggfxuvjiodvijxivub27w67btsve6cacxg7",
-        "nomeGrupo":"Grupo da TI",
-        "userAdmId":12,
-        "participantes":[
-            62997979797,//do criador
-            6299,
-            62997979788,//não cadastrado
-        ]
-    }
-```
-### Saída:  
-```json
 {
-        "status":false,
-        "participantes":[
-            {
-                "telefone":6299,
-                "status": "invalid"
-            },
-            {
-                "telefone": 62990909090,
-                "status": "nonexistent"
-            }
-        ],
-        "message":"Revise os telefones!"
-    }
-```
+	"id": 13,
+	"telefone": "+5562994459111",
+	"administrador": "+556298530497"
 
-### CT14:"Adicionar números de telefone ao grupo"
-### Entrada:
-```json
-{   
-        "token":"kxhggfxuvjiodvijxivub27w67btsve6cacxg7",
-        "tokenAdm":"uaygbb7a1877anh9sda27oceq78he7cah78d67",
-        "userId":12,
-        "newParticipantes":[
-            62997979797,
-            62997966767,
-        ]
-    }
+}
 ```
 ### Saída:  
 ```json
 {
-        "status":true,
-        "participantes":[
-            {
-                "telefone":62997979797,
-                "status": "added"
-            },
-            {
-                "telefone": 62997966767,
-                "status": "added"
-            }
-        ]
-        "message":"Usuários adicionados com sucesso!"
-    }
-```
-
-### CT15:"Adicionar números de telefone ao grupo sem ser adiministrador"
-### Entrada:
-```json
-{   
-        "token":"kxhggfxuvjiodvijxivub27w67btsve6cacxg7",
-        "tokenAdm":"",
-        "userId":12,
-        "newParticipantes":[
-            62997979797
-        ]
-    }
-```
-### Saída:  
-```json
-{
-        "status":false,
-        "message":"Access Danied"
-    }
+	"message": "Você não é administrador do grupo",
+	"error": "Unauthorized",
+	"statusCode": 401
+}
 ```
 
 ### CT16:"Remover número de telefone do grupo"
 ### Entrada:
 ```json
-{   
-        "token":"kxhggfxuvjiodvijxivub27w67btsve6cacxg7",
-        "tokenAdm":"uaygbb7a1877anh9sda27oceq78he7cah78d67",
-        "userId":12,
-        "removeParticipante": 62997979797
-        
-    }
+{
+	"id": 13,
+	"telefone": "+5562994459111",
+	"administrador": "+5562985304972"
+
+}
 ```
 
 ### Saída:  
 ```json
 {
-        "status":true,
-        "message":"Usuário removido com sucesso!"
-    }
+	"flagGrupo": true,
+	"nome": "grupo teste",
+	"administrador": "+5562985304972",
+	"id": 13,
+	"usuarios": [
+		{
+			"id": 6,
+			"nome": "testet",
+			"telefone": "+5562985304972",
+			"senha": "asdwqdw",
+			"banidoAte": null,
+			"codigoVerificacao": "353360"
+		}
+	]
+}
 ```
 
 ### CT17:"Remover número de telefone que não faz parte do grupo"
 ### Entrada:
 ```json
-{   
-        "token":"kxhggfxuvjiodvijxivub27w67btsve6cacxg7",
-        "tokenAdm":"uaygbb7a1877anh9sda27oceq78he7cah78d67",
-        "userId":12,
-        "removeParticipante": 62997979791
+{
+	"id": 13,
+	"telefone": "+5562994459111",
+	"administrador": "+5562985304972"
 
-    }
+}
 ```
 ### Saída:  
 ```json
-    {
-        "status":false,
-        "message":"Usuário informado não está cadastrado no grupo ou é inválido!"
+{
+	"statusCode": 404,
+	"message": "Usuário não encontrado"
     }
+```
+### CT15:"Remover número de telefone ao grupo sem ser administrador"
+### Entrada:
+```json
+{
+	"id": 13,
+	"telefone": "+5562994459111",
+	"administrador": "+556298530497"
+
+}
+```
+### Saída:  
+```json
+{
+	"message": "Você não é administrador do grupo",
+	"error": "Unauthorized",
+	"statusCode": 401
+}
 ```
 
 ## Estratégia de controle de versão
