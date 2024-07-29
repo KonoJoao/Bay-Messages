@@ -1,9 +1,9 @@
 import { Inject, Injectable } from "@nestjs/common";
 import ArrayPalavrasCensuradas from "./palavrasCensuradas";
-import { ChatService } from "src/chat/chat.service";
-import { Message } from "src/message/message.entity";
-import { UsuarioService } from "src/usuario/usuario.service";
-import { UsuarioDto } from "src/usuario/usuario.dto";
+import { ChatService } from "../chat/chat.service";
+import { Message } from "../message/message.entity";
+import { UsuarioService } from "../usuario/usuario.service";
+import { UsuarioDto } from "../usuario/usuario.dto";
 
 enum MotivosDenuncia {
   CONTATO = "CONTATO INDESEJADO",
@@ -15,8 +15,10 @@ export interface ReturnSchema {
   status: boolean;
   banimento: {
     data?: Date;
+    message?: string;
   };
-  message: string;
+  message?: string;
+  originalMessage?: string;
 }
 @Injectable()
 export class ModeradorService {
@@ -57,8 +59,8 @@ export class ModeradorService {
           status: true,
           banimento: {
             data: dataBanimento,
+            message: "banimento realizado com sucesso!",
           },
-          message: "banimento realizado com sucesso!",
         };
 
       case "IMORALIDADE":
@@ -70,8 +72,8 @@ export class ModeradorService {
             status: false,
             banimento: {
               data: dataBanimento,
+              message: "Nenhuma inconformidade encontrada!",
             },
-            message: "Nenhuma inconformidade encontrada!",
           };
         } else if (result.grau > 2) {
           dataBanimento.setHours(dataBanimento.getHours() + 1);
@@ -79,8 +81,8 @@ export class ModeradorService {
             status: true,
             banimento: {
               data: dataBanimento,
+              message: "Usuário banido por uma (1) hora!",
             },
-            message: "Usuário banido por uma (1) hora!",
           };
         } else {
           return {
@@ -89,6 +91,7 @@ export class ModeradorService {
               data: dataBanimento,
             },
             message: `${result.termo[0]}${"*".repeat(result.termo.length - 1)}`,
+            originalMessage: result.termo,
           };
         }
 
@@ -111,16 +114,16 @@ export class ModeradorService {
             status: true,
             banimento: {
               data: dataBanimento,
+              message: "Usuário banido por uma (1) hora!",
             },
-            message: "Usuário banido por uma (1) hora!",
           };
         }
         return {
           status: false,
           banimento: {
             data: dataBanimento,
+            message: "Nenhuma inconformidade encontrada!",
           },
-          message: "Nenhuma inconformidade encontrada!",
         };
     }
   }

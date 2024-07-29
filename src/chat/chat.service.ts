@@ -29,7 +29,7 @@ export class ChatService {
     try {
       return await this.chatRepository.query(sql);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       throw new HttpException(
         error.response || "Erro ao executar sql",
         error.status || HttpStatus.INTERNAL_SERVER_ERROR
@@ -46,7 +46,6 @@ export class ChatService {
       if (!chat) {
         throw new NotFoundException("Chat não encontrado.");
       }
-      console.log(chat);
       return chat;
     } catch (error) {
       throw new HttpException(

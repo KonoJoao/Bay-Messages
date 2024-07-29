@@ -15,6 +15,7 @@ import { MessageDto } from "./message.dto";
 import { UsuarioService } from "../usuario/usuario.service";
 import { Chat } from "../chat/chat.entity";
 import { Usuario } from "../usuario/usuario.entity";
+import { ModeradorService } from "../moderador/moderador.service";
 
 @Injectable()
 export class MessageService {
@@ -23,6 +24,8 @@ export class MessageService {
     private readonly usuarioService: UsuarioService,
     @Inject()
     private readonly chatService: ChatService,
+    @Inject()
+    private readonly moderadorService: ModeradorService,
     @InjectRepository(Message)
     private readonly messageRepository: Repository<Message>
   ) {}
@@ -32,8 +35,6 @@ export class MessageService {
       const usuario: Usuario =
         await this.usuarioService.encontraPorTelefone(telefone);
       const chat: Chat = await this.chatService.buscarChat(id);
-
-      console.log(usuario, chat);
 
       if (!chat.usuarios.some((element) => element.id === usuario.id))
         throw new UnauthorizedException("O usuário não está nesse chat!");
@@ -57,6 +58,24 @@ export class MessageService {
       message.createdAt = new Date();
       message.censurado = false;
       message.text = novoMessage.text;
+      const censura = await this.moderadorService.verificarMensagem(
+        message.text,
+        "IMORALIDADE",
+        new Date(),
+        +chat.id
+      );
+
+      if (censura.status) {
+        throw new BadRequestException(censura.banimento.message);
+      }
+
+      if (censura?.message && censura?.originalMessage) {
+        message.text = message.text.replaceAll(
+          censura.originalMessage,
+          censura.message
+        );
+      }
+
       const result = await this.messageRepository.save(message);
       return result;
     } catch (e) {
@@ -76,7 +95,6 @@ export class MessageService {
           createdAt: {},
         },
       });
-      // console.log(result);
       return result;
     } catch (e) {
       throw new HttpException(
@@ -94,7 +112,6 @@ export class MessageService {
         },
         relations: ["chat"],
       });
-      console.log(message, telefone);
       await this.validarAcesso(message.chat.id, telefone);
       return message;
     } catch (e) {
@@ -109,9 +126,23 @@ export class MessageService {
     try {
       const mensagem = await this.buscarUnicaMessage(id, telefone);
       if (!mensagem) throw new BadRequestException("Mensagem não encontrada!");
+
+      const censura = await this.moderadorService.verificarMensagem(
+        text,
+        "IMORALIDADE",
+        new Date(),
+        0
+      );
+
+      if (censura.status) {
+        throw new BadRequestException(censura.banimento.message);
+      }
+
+      if (censura?.message && censura?.originalMessage) {
+        text = text.replaceAll(censura.originalMessage, censura.message);
+      }
       mensagem.text = text;
-      const result = await this.messageRepository.save(mensagem);
-      return { result };
+      return await this.messageRepository.save(mensagem);
     } catch (e) {
       throw new HttpException(
         e.response || "Erro ao editar mensagem",

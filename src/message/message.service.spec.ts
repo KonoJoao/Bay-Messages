@@ -5,15 +5,18 @@ import { Message } from "./message.entity";
 import { MessageDto } from "./message.dto";
 import { UsuarioService } from "../usuario/usuario.service";
 import { ChatService } from "../chat/chat.service";
-import { Usuario } from "../usuario/usuario.entity";
-import { Chat } from "../chat/chat.entity";
 import { Repository } from "typeorm";
 
-import {
-  BadRequestException,
-  HttpException,
-  UnauthorizedException,
-} from "@nestjs/common";
+import { HttpException, UnauthorizedException } from "@nestjs/common";
+import { ModeradorService } from "../moderador/moderador.service";
+
+const verificarMensagem = {
+  status: false,
+  banimento: {
+    data: "2024-07-29T17:35:30.687Z",
+    message: "Nenhuma inconformidade encontrada!",
+  },
+};
 
 const messages = [
   new MessageDto({
@@ -70,6 +73,7 @@ describe("MessageService", () => {
   let messageRepository: Repository<Message>;
   let usuarioService: UsuarioService;
   let chatService: ChatService;
+  let moderadorService: ModeradorService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -120,26 +124,18 @@ describe("MessageService", () => {
         {
           provide: getRepositoryToken(Message),
           useValue: {
-            // validarAcesso: jest.fn().mockResolvedValue(acessoValidoTeste),
             save: jest.fn().mockResolvedValue(messages[0]),
             find: jest.fn().mockResolvedValue(messages),
             findOne: jest.fn().mockResolvedValue(messages[0]),
-            // editarMessage: jest.fn(),
             delete: jest.fn().mockResolvedValue(""),
           },
         },
-        // {
-        //   provide: getRepositoryToken(Usuario),
-        //   useValue: {
-        //     encontraPorTelefone: jest.fn(),
-        //   },
-        // },
-        // {
-        //   provide: getRepositoryToken(Chat),
-        //   useValue: {
-        //     buscarChat: jest.fn(),
-        //   },
-        // },
+        {
+          provide: ModeradorService,
+          useValue: {
+            verificarMensagem: jest.fn().mockResolvedValue(verificarMensagem),
+          },
+        },
       ],
     }).compile();
 
@@ -147,6 +143,7 @@ describe("MessageService", () => {
     usuarioService = module.get<UsuarioService>(UsuarioService);
     chatService = module.get<ChatService>(ChatService);
     messageRepository = module.get(getRepositoryToken(Message));
+    moderadorService = module.get<ModeradorService>(ModeradorService);
   });
 
   it("should be defined", () => {
@@ -210,7 +207,7 @@ describe("MessageService", () => {
         "+5562985304972",
         "teste"
       );
-      expect(result).toEqual({ result: messages[0] });
+      expect(result).toEqual(messages[0]);
       // expect(messageService.editarMessage).toHaveBeenCalledTimes(1);
     });
     it("Editar mensagem fornecendo identificação inválida da mensagem", async () => {

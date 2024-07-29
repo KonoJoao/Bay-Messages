@@ -7,5 +7,6 @@ import { UsuarioModule } from "src/usuario/usuario.module";
   imports: [ChatModule, UsuarioModule],
   providers: [ModeradorService],
   controllers: [ModeradorController],
+  exports: [ModeradorService],
 })
 export class ModeradorModule {}
