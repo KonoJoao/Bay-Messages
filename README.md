@@ -918,7 +918,7 @@ Body da Resposta
 	"message": "Usuário não encontrado"
     }
 ```
-### CT15:"Remover número de telefone ao grupo sem ser administrador"
+### CT18:"Remover número de telefone ao grupo sem ser administrador"
 ### Entrada:
 ```json
 {
