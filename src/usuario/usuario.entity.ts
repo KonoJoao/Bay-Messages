@@ -1,7 +1,6 @@
-import {Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-
 export class Usuario {
   @PrimaryGeneratedColumn()
   id: number;
@@ -14,6 +13,9 @@ export class Usuario {
 
   @Column()
   senha: string;
+
+  @Column({ type: "simple-array", nullable: true })
+  bloqueados: string[];
 
   @Column({ nullable: true })
   banidoAte: Date;
