@@ -39,18 +39,18 @@ export class ChatService {
 
   async buscarChat(id: Number) {
     try {
-      const grupo = await this.chatRepository.findOne({
+      const chat = await this.chatRepository.findOne({
         where: { id: id }, // Usando um alias 'chat' para especificar a tabela
         relations: ["usuarios"],
       });
-      if (!grupo) {
+      if (!chat) {
         throw new NotFoundException("Chat não encontrado.");
       }
-
-      return grupo;
+      console.log(chat);
+      return chat;
     } catch (error) {
       throw new HttpException(
-        error.response || "Erro ao listar membros do grupo.",
+        error.response || "Erro ao buscar chat.",
         error.status || HttpStatus.INTERNAL_SERVER_ERROR
       );
     }
@@ -60,19 +60,22 @@ export class ChatService {
     return (await this.buscarChat(id)).usuarios;
   }
 
-  async adicionarMembro(id: Number, telefone: string) {
+  async adicionarMembro(id: Number, telefone: string, administrador: string) {
     try {
       const chat = await this.buscarChat(id);
 
       if (!chat.flagGrupo) {
-        throw new BadRequestException("O chat buscado não é um grupo.");
+        throw new BadRequestException("O chat buscado não é um grupo");
       }
 
-      if (!(chat.administrador === telefone))
+      if (!(chat.administrador === administrador))
         throw new UnauthorizedException("Você não é administrador do grupo");
 
       const usuario: Usuario =
         await this.usuarioService.encontraPorTelefone(telefone);
+
+      if (chat.usuarios.some((element) => element.id === usuario.id))
+        throw new BadRequestException("O usuário já está no grupo");
 
       chat.usuarios.push(usuario);
 
@@ -85,7 +88,7 @@ export class ChatService {
     }
   }
 
-  async removerMembro(id: Number, telefone: string) {
+  async removerMembro(id: Number, telefone: string, administrador: string) {
     try {
       var chat = await this.buscarChat(id);
 
@@ -93,13 +96,15 @@ export class ChatService {
         throw new BadRequestException("O chat buscado não é um grupo.");
       }
 
-      if (!(chat.administrador === telefone))
+      if (!(chat.administrador === administrador))
         throw new UnauthorizedException("Você não é administrador do grupo");
 
       const usuario: Usuario =
         await this.usuarioService.encontraPorTelefone(telefone);
 
-      chat.usuarios = chat.usuarios.filter((element) => element !== usuario);
+      chat.usuarios = chat.usuarios.filter(
+        (element) => element.id !== usuario.id
+      );
 
       return await this.chatRepository.save(chat);
     } catch (e) {
@@ -149,6 +154,20 @@ export class ChatService {
     } catch (e) {
       throw new HttpException(
         e.response || "Erro ao cadastrar conversa privada",
+        e.status || HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
+  }
+
+  async deletarChat(id: Number) {
+    try {
+      await this.executeQuery(`DELETE FROM message WHERE chatId = ${+id}`);
+      await this.executeQuery(`DELETE FROM chat WHERE id = ${+id}`);
+      return { message: `Chat de id ${id} deletada` };
+    } catch (e) {
+      console.error(e);
+      throw new HttpException(
+        e.response || "Erro ao deletar chat",
         e.status || HttpStatus.INTERNAL_SERVER_ERROR
       );
     }

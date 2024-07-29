@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -28,21 +29,27 @@ export class ChatController {
   @Post("adicionar")
   async adicionarMembro(
     @Body("id") id: Number,
-    @Body("telefone") telefone: string
+    @Body("telefone") telefone: string,
+    @Body("administrador") administrador: string
   ): Promise<any> {
-    return await this.chatService.adicionarMembro(id, telefone);
+    return await this.chatService.adicionarMembro(id, telefone, administrador);
   }
   @Post("remover")
   async removerMembro(
     @Body("id") id: Number,
-    @Body("telefone") telefone: string
+    @Body("telefone") telefone: string,
+    @Body("administrador") administrador: string
   ): Promise<any> {
-    return await this.chatService.removerMembro(id, telefone);
+    return await this.chatService.removerMembro(id, telefone, administrador);
   }
   @Post("conversa")
   async cadastrarConversaPrivada(
     @Body() novoChat: ConversaPrivadaDto
   ): Promise<any> {
     return await this.chatService.cadastrarConversaPrivada(novoChat);
+  }
+  @Delete("/:id")
+  async deletarChat(@Param("id") id: Number): Promise<any> {
+    return await this.chatService.deletarChat(id);
   }
 }

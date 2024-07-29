@@ -19,7 +19,7 @@ export class Chat {
   usuarios: Usuario[];
 
   @OneToMany(() => Message, (message) => message.chat)
-  message: Message[];
+  message?: Message[];
 
   @Column({ default: false })
   flagGrupo: boolean = false;
