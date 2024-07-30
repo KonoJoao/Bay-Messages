@@ -7,11 +7,11 @@ export class ModeradorController {
 
   @Post("denunciarContato")
   async buscar(@Body() body: BanimentoDto): Promise<any> {
-    const { mensagem, motivo, dataDenuncia, chatId, telefone } = body;
+    const { mensagem, motivo, chatId, telefone } = body;
     const response = await this.moderadorService.verificarMensagem(
       mensagem,
       motivo,
-      dataDenuncia,
+      new Date(),
       chatId
     );
     if (response.status) {
