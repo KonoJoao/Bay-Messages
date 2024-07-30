@@ -218,4 +218,15 @@ export class ChatService {
     chat.bloqueados.push(usuario);
     return await this.chatRepository.save(chat);
   }
+
+  async desbloquearNoChat(id: Number, telefone: string) {
+    const chat = await this.buscarChat(id);
+    const usuario = await this.usuarioService.encontraPorTelefone(telefone);
+    chat.bloqueados = chat.bloqueados.filter(
+      (usuarios) => usuarios.id !== usuario.id
+    );
+    // throw new BadRequestException("O usuário já está bloqueado");
+
+    return await this.chatRepository.save(chat);
+  }
 }

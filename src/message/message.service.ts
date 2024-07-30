@@ -36,6 +36,9 @@ export class MessageService {
         await this.usuarioService.encontraPorTelefone(telefone);
       const chat: Chat = await this.chatService.buscarChat(id);
 
+      if (usuario.banidoAte > new Date())
+        throw new UnauthorizedException("O usuário ainda está banido!");
+
       if (!chat.usuarios.some((element) => element.id === usuario.id))
         throw new UnauthorizedException("O usuário não está nesse chat!");
 
@@ -53,6 +56,12 @@ export class MessageService {
     try {
       const message = new Message();
       const { chat } = await this.validarAcesso(id, novoMessage.telefone);
+      if (
+        chat.bloqueados.find(
+          (usuarios) => novoMessage.telefone === usuarios.telefone
+        )
+      )
+        throw new UnauthorizedException("O usuário está bloqueado nesse chat");
       message.chat = chat;
       message.telefone = novoMessage.telefone;
       message.createdAt = new Date();
