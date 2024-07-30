@@ -9,12 +9,13 @@ import {
 } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Chat } from "./chat.entity";
-import { Repository } from "typeorm";
+import { Repository, In } from "typeorm";
 import { ChatDto } from "./chat.dto";
 import { GrupoDto } from "./grupo.dto";
 import { UsuarioService } from "../usuario/usuario.service";
 import { Usuario } from "../usuario/usuario.entity";
 import { ConversaPrivadaDto } from "./conversaPrivada.dto";
+import { exec } from "child_process";
 
 @Injectable()
 export class ChatService {
@@ -32,6 +33,30 @@ export class ChatService {
       console.error(error);
       throw new HttpException(
         error.response || "Erro ao executar sql",
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
+  }
+
+  async verificarEmChatsPrivados(usuario1: Number, usuario2: Number) {
+    try {
+      const chat = await this.executeQuery(
+        `
+          SELECT a.chatId, 
+                a.usuarioId,
+                b.usuarioId
+          from chat_usuarios_usuario as a
+            INNER JOIN chat_usuarios_usuario as b
+            on a.chatId= b.chatId 
+            INNER JOIN chat as c
+            on c.id = a.chatId
+          WHERE a.usuarioId = ${usuario1} AND b.usuarioId = ${usuario2} AND c.flagGrupo = false       
+          `
+      );
+      return chat;
+    } catch (error) {
+      throw new HttpException(
+        error.response || "Erro ao buscar chat.",
         error.status || HttpStatus.INTERNAL_SERVER_ERROR
       );
     }
@@ -138,6 +163,7 @@ export class ChatService {
   async cadastrarConversaPrivada(chat: ConversaPrivadaDto) {
     try {
       var newChat = new Chat();
+
       const usuario1: Usuario = await this.usuarioService.encontraPorTelefone(
         chat.usuarioDe
       );
@@ -145,6 +171,17 @@ export class ChatService {
       const usuario2: Usuario = await this.usuarioService.encontraPorTelefone(
         chat.usuarioPara
       );
+
+      const verificarChat = await this.verificarEmChatsPrivados(
+        +usuario1.id,
+        +usuario2.id
+      );
+
+      if (verificarChat.length > 0)
+        throw new BadRequestException(
+          "Já existe uma conversa privada cadastrada entre os dois usuários"
+        );
+
       if (!usuario1 || !usuario2) return;
 
       newChat.usuarios = [usuario1, usuario2];
@@ -171,4 +208,6 @@ export class ChatService {
       );
     }
   }
+
+  async bloquearNoChat(id: Number, telefone: string) {}
 }

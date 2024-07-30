@@ -18,6 +18,10 @@ export class Chat {
   @JoinTable()
   usuarios: Usuario[];
 
+  @ManyToMany(() => Usuario)
+  @JoinTable()
+  bloqueados?: Usuario[];
+
   @OneToMany(() => Message, (message) => message.chat)
   message?: Message[];
 

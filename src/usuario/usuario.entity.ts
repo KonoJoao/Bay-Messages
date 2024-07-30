@@ -14,8 +14,8 @@ export class Usuario {
   @Column()
   senha: string;
 
-  @Column({ type: "simple-array", nullable: true })
-  bloqueados: string[];
+  // @Column({ type: "simple-array", nullable: true })
+  // bloqueados: string[];
 
   @Column({ nullable: true })
   banidoAte: Date;
