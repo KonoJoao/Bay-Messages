@@ -1,9 +1,10 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
 import ArrayPalavrasCensuradas from "./palavrasCensuradas";
 import { ChatService } from "../chat/chat.service";
 import { Message } from "../message/message.entity";
 import { UsuarioService } from "../usuario/usuario.service";
 import { UsuarioDto } from "../usuario/usuario.dto";
+import { DesbanimentoDto } from "./moderador.dto";
 
 enum MotivosDenuncia {
   CONTATO = "CONTATO INDESEJADO",
@@ -28,9 +29,9 @@ export class ModeradorService {
     private readonly usuarioService: UsuarioService
   ) {}
 
-  // async banirUsuario(partialData: Partial<UsuarioDto>) {
-  //   return await this.usuarioService.atualizar(partialData);
-  // }
+  async banirUsuario(partialData: Partial<UsuarioDto>) {
+    return await this.usuarioService.atualizar(partialData);
+  }
 
   removerCaracteresEspeciais(texto: string) {
     texto = texto.replace(/[^\w\s]/gi, "");
@@ -44,17 +45,31 @@ export class ModeradorService {
     return texto;
   }
 
+  async desbanirUsuario(params: DesbanimentoDto) {
+    try {
+      const { chatId, telefone } = params;
+      return await this.chatService.desbloquearNoChat(chatId, telefone);
+      //passar número e remover da lista de bloqueados
+    } catch (error) {
+      throw new HttpException(
+        error.response || "Erro ao desbanir usuário",
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
+  }
+
   async verificarMensagem(
     mensagem: string,
     motivo: string,
     dataDenuncia: Date,
-    chatId: number
+    chatId: number,
+    telefone?: string
   ): Promise<ReturnSchema> {
     const mensagemFormated = this.removerCaracteresEspeciais(mensagem);
     const dataBanimento = dataDenuncia;
     switch (motivo) {
       case "CONTATO INDESEJADO":
-        dataBanimento.setFullYear(dataDenuncia.getFullYear() + 1);
+        await this.chatService.bloquearNoChat(chatId, telefone);
         return {
           status: true,
           banimento: {
@@ -77,6 +92,11 @@ export class ModeradorService {
           };
         } else if (result.grau > 2) {
           dataBanimento.setHours(dataBanimento.getHours() + 1);
+          ///falta cadastrar número ao chat em que foi banido
+          await this.banirUsuario({
+            telefone: telefone,
+            banidoAte: dataBanimento,
+          });
           return {
             status: true,
             banimento: {
@@ -110,6 +130,10 @@ export class ModeradorService {
             .length > 10
         ) {
           dataBanimento.setHours(dataBanimento.getHours() + 1);
+          await this.banirUsuario({
+            telefone: telefone,
+            banidoAte: dataBanimento,
+          });
           return {
             status: true,
             banimento: {

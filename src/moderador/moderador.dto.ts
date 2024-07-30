@@ -3,5 +3,10 @@ export class BanimentoDto {
   motivo: string;
   dataDenuncia: Date;
   chatId: number;
-  userId: number;
+  telefone: string;
+}
+
+export class DesbanimentoDto {
+  chatId: number;
+  telefone: string;
 }

@@ -88,9 +88,9 @@ export class UsuarioService {
     return usuarioSalvo;
   }
 
-  async atualizar(usuarioDto: UsuarioDto): Promise<any> {
+  async atualizar(usuarioDto: Partial<UsuarioDto>): Promise<any> {
     const usuarioExistente = await this.usuarioRepository.findOne({
-      where: { id: usuarioDto.id },
+      where: { telefone: usuarioDto.telefone },
     });
 
     if (!usuarioExistente) {
