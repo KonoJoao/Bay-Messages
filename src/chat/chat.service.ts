@@ -209,5 +209,13 @@ export class ChatService {
     }
   }
 
-  async bloquearNoChat(id: Number, telefone: string) {}
+  async bloquearNoChat(id: Number, telefone: string) {
+    const chat = await this.buscarChat(id);
+    const usuario = await this.usuarioService.encontraPorTelefone(telefone);
+    if (chat.bloqueados.find((usuarios) => usuarios.id === usuario.id))
+      throw new BadRequestException("O usuário já está bloqueado");
+
+    chat.bloqueados.push(usuario);
+    return await this.chatRepository.save(chat);
+  }
 }
