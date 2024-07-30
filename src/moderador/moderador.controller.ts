@@ -5,7 +5,7 @@ import { BanimentoDto, DesbanimentoDto } from "./moderador.dto";
 export class ModeradorController {
   constructor(private readonly moderadorService: ModeradorService) {}
 
-  @Post("bloquearContato")
+  @Post("denunciarContato")
   async buscar(@Body() body: BanimentoDto): Promise<any> {
     const { mensagem, motivo, dataDenuncia, chatId, telefone } = body;
     const response = await this.moderadorService.verificarMensagem(
