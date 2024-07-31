@@ -88,9 +88,27 @@ export class UsuarioService {
     return usuarioSalvo;
   }
 
+  async banirUsuario(telefone: string, bataBanimento: Date) {
+    try {
+      const usuario = await this.usuarioRepository.findOne({
+        where: { telefone },
+      });
+      if (!usuario)
+        throw new HttpException("Usuário não encontrado", HttpStatus.NOT_FOUND);
+      return this.usuarioRepository.update(usuario.id, {
+        banidoAte: bataBanimento,
+      });
+    } catch (e) {
+      throw new HttpException(
+        e.response || "Erro ao banir usuário",
+        e.status || HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
+  }
+
   async atualizar(usuarioDto: Partial<UsuarioDto>): Promise<any> {
     const usuarioExistente = await this.usuarioRepository.findOne({
-      where: { telefone: usuarioDto.telefone },
+      where: { id: usuarioDto.id },
     });
 
     if (!usuarioExistente) {

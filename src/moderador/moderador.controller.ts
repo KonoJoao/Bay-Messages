@@ -1,9 +1,13 @@
 import { Body, Controller, Post } from "@nestjs/common";
 import { ModeradorService, ReturnSchema } from "./moderador.service";
 import { BanimentoDto, DesbanimentoDto } from "./moderador.dto";
+import { UsuarioService } from "src/usuario/usuario.service";
 @Controller("moderador")
 export class ModeradorController {
-  constructor(private readonly moderadorService: ModeradorService) {}
+  constructor(
+    private readonly moderadorService: ModeradorService,
+    private readonly usuarioService: UsuarioService
+  ) {}
 
   @Post("denunciarContato")
   async buscar(@Body() body: BanimentoDto): Promise<any> {
@@ -12,14 +16,15 @@ export class ModeradorController {
       mensagem,
       motivo,
       new Date(),
-      chatId
+      chatId,
+      telefone
     );
     if (response.status) {
       //usuário com penalidade
-      return this.moderadorService.banirUsuario({
-        telefone: telefone,
-        banidoAte: response.banimento.data,
-      });
+      return this.usuarioService.banirUsuario(
+        telefone,
+        response.banimento.data
+      );
     }
 
     return response.message;

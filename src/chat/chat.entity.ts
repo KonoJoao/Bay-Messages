@@ -18,7 +18,10 @@ export class Chat {
   @JoinTable()
   usuarios: Usuario[];
 
-  @ManyToMany(() => Usuario)
+  @ManyToMany(() => Usuario, {
+    cascade: true,
+    eager: true,
+  })
   @JoinTable()
   bloqueados?: Usuario[];
 

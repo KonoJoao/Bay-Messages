@@ -29,10 +29,6 @@ export class ModeradorService {
     private readonly usuarioService: UsuarioService
   ) {}
 
-  async banirUsuario(partialData: Partial<UsuarioDto>) {
-    return await this.usuarioService.atualizar(partialData);
-  }
-
   removerCaracteresEspeciais(texto: string) {
     texto = texto.replace(/[^\w\s]/gi, "");
     texto = texto.replace(/[áàãâä]/gi, "a");
@@ -93,10 +89,7 @@ export class ModeradorService {
         } else if (result.grau > 2) {
           dataBanimento.setHours(dataBanimento.getHours() + 1);
           ///falta cadastrar número ao chat em que foi banido
-          await this.banirUsuario({
-            telefone: telefone,
-            banidoAte: dataBanimento,
-          });
+          await this.usuarioService.banirUsuario(telefone, dataBanimento);
           return {
             status: true,
             banimento: {
@@ -130,10 +123,7 @@ export class ModeradorService {
             .length > 10
         ) {
           dataBanimento.setHours(dataBanimento.getHours() + 1);
-          await this.banirUsuario({
-            telefone: telefone,
-            banidoAte: dataBanimento,
-          });
+          await this.usuarioService.banirUsuario(telefone, dataBanimento);
           return {
             status: true,
             banimento: {

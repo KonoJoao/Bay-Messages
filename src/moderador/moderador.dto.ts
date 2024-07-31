@@ -1,8 +1,9 @@
 export class BanimentoDto {
+  userId: number;
   mensagem: string;
   motivo: string;
   chatId: number;
-  telefone: string;
+  telefone?: string;
 }
 
 export class DesbanimentoDto {
