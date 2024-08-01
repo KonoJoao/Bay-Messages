@@ -7,12 +7,15 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from "@nestjs/common";
 import { GrupoDto } from "src/chat/grupo.dto";
 import { MessageService } from "./message.service";
 import { MessageDto } from "./message.dto";
+import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 
 @Controller("message")
+@UseGuards(JwtAuthGuard)
 export class MessageController {
   constructor(private readonly messageService: MessageService) {}
   @Post("/:id")

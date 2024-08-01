@@ -42,7 +42,7 @@ export class MessageService {
       if (!chat.usuarios.some((element) => element.id === usuario.id))
         throw new UnauthorizedException("O usuário não está nesse chat!");
 
-      return { chat };
+      return chat;
     } catch (e) {
       console.error(e);
       throw new HttpException(
@@ -55,9 +55,11 @@ export class MessageService {
   async cadastrarMessage(novoMessage: MessageDto, id: Number) {
     try {
       const message = new Message();
-      const { chat } = await this.validarAcesso(id, novoMessage.telefone);
+      const chat = await this.validarAcesso(id, novoMessage.telefone);
+      console.log(chat);
       if (
-        chat.bloqueados.find(
+        chat?.bloqueados &&
+        chat?.bloqueados.find(
           (usuarios) => novoMessage.telefone === usuarios.telefone
         )
       )
@@ -71,7 +73,8 @@ export class MessageService {
         message.text,
         "IMORALIDADE",
         new Date(),
-        +chat.id
+        +chat.id,
+        novoMessage.telefone
       );
 
       if (censura.status) {
@@ -88,6 +91,7 @@ export class MessageService {
       const result = await this.messageRepository.save(message);
       return result;
     } catch (e) {
+      console.error(e);
       throw new HttpException(
         e.response || "Erro ao cadastrar mensagem",
         e.status || HttpStatus.INTERNAL_SERVER_ERROR
@@ -97,7 +101,7 @@ export class MessageService {
 
   async buscarMessage(id: Number, telefone: string) {
     try {
-      const { chat } = await this.validarAcesso(id, telefone);
+      const chat = await this.validarAcesso(id, telefone);
       const result = await this.messageRepository.find({
         where: { chat },
         order: {
