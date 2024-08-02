@@ -1,8 +1,10 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Post, UseGuards } from "@nestjs/common";
 import { ModeradorService, ReturnSchema } from "./moderador.service";
 import { BanimentoDto, DesbanimentoDto } from "./moderador.dto";
 import { UsuarioService } from "src/usuario/usuario.service";
+import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 @Controller("moderador")
+@UseGuards(JwtAuthGuard)
 export class ModeradorController {
   constructor(
     private readonly moderadorService: ModeradorService,

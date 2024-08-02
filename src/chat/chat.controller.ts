@@ -15,7 +15,7 @@ import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 import { ConversaPrivadaDto } from "./conversaPrivada.dto";
 
 @Controller("chat")
-// @UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 export class ChatController {
   constructor(private readonly chatService: ChatService) {}
   @Post("grupo")
