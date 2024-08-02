@@ -106,49 +106,47 @@ export class UsuarioService {
     }
   }
 
-  async atualizar(usuarioDto: Partial<UsuarioDto>): Promise<any> {
-    const usuarioExistente = await this.usuarioRepository.findOne({
-      where: { id: usuarioDto.id },
-    });
-
-    if (!usuarioExistente) {
-      throw new HttpException("Usuário não encontrado", HttpStatus.NOT_FOUND);
-    }
-
-    if (usuarioExistente.telefone !== usuarioDto.telefone) {
-      const telefoneExistente = await this.usuarioRepository.findOne({
-        where: { telefone: usuarioDto.telefone },
-      });
-      if (telefoneExistente) {
-        throw new HttpException(
-          "Telefone já cadastrado",
-          HttpStatus.BAD_REQUEST
-        );
+  async atualizar(usuarioDto: UsuarioDto): Promise<any> {
+    try {
+      const usuarioExistente = await this.usuarioRepository.findOne({ where: { id: usuarioDto.id } });
+  
+      if (!usuarioExistente) {
+        throw new HttpException("Usuário não encontrado", HttpStatus.NOT_FOUND);
       }
-      const isVerified = await this.verificarCodigo(
-        usuarioDto.telefone,
-        usuarioDto.codigoVerificacao
-      );
-      if (!isVerified) {
-        throw new HttpException(
-          "Código de verificação inválido",
-          HttpStatus.BAD_REQUEST
-        );
+  
+      // Check if the telefone is being updated
+      if (usuarioDto.telefone && usuarioExistente.telefone !== usuarioDto.telefone) {
+        const telefoneExistente = await this.usuarioRepository.findOne({ where: { telefone: usuarioDto.telefone } });
+        if (telefoneExistente) {
+          throw new HttpException("Telefone já cadastrado", HttpStatus.BAD_REQUEST);
+        }
+  
+        // Verify the new telefone
+        const isVerified = await this.verificarCodigo(usuarioDto.telefone, usuarioDto.codigoVerificacao);
+        if (!isVerified) {
+          throw new HttpException("Código de verificação inválido", HttpStatus.BAD_REQUEST);
+        }
+  
+        // Update telefone
+        usuarioExistente.telefone = usuarioDto.telefone;
       }
+  
+      // Update other fields except id and telefone
+      if (usuarioDto.nome) {
+        usuarioExistente.nome = usuarioDto.nome;
+      }
+      if (usuarioDto.senha) {
+        usuarioExistente.senha = usuarioDto.senha;
+      }
+      if (usuarioDto.banidoAte) {
+        usuarioExistente.banidoAte = usuarioDto.banidoAte;
+      }
+  
+      const usuarioAtualizado = await this.usuarioRepository.save(usuarioExistente);
+      return usuarioAtualizado;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
-    usuarioExistente.telefone =
-      usuarioDto.telefone || usuarioExistente.telefone;
-    usuarioExistente.nome = usuarioDto.nome || usuarioExistente.nome;
-    usuarioExistente.senha = usuarioDto.senha || usuarioExistente.senha;
-    usuarioExistente.banidoAte =
-      usuarioDto.banidoAte || usuarioExistente.banidoAte;
-    usuarioExistente.codigoVerificacao =
-      usuarioDto.codigoVerificacao || usuarioExistente.codigoVerificacao;
-
-    const usuarioAtualizado =
-      await this.usuarioRepository.save(usuarioExistente);
-    return usuarioAtualizado;
   }
 
   async encontraPorTelefone(telefone: string): Promise<any> {
@@ -167,25 +165,6 @@ export class UsuarioService {
     }
   }
 
-  async listarTodos(): Promise<any> {
-    return await this.usuarioRepository.find();
-  }
-
-  async encontraPorId(id: number): Promise<any> {
-    try {
-      const usuario = await this.usuarioRepository.findOne({
-        where: { id },
-      });
-      if (!usuario)
-        throw new HttpException("Usuário não encontrado", HttpStatus.NOT_FOUND);
-      return usuario;
-    } catch (e) {
-      throw new HttpException(
-        e.response || "Erro ao buscar usuário",
-        e.status || HttpStatus.INTERNAL_SERVER_ERROR
-      );
-    }
-  }
 
   async deletar(id: number): Promise<any> {
     try {

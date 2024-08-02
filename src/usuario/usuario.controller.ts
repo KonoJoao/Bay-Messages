@@ -36,18 +36,6 @@ export class UsuarioController {
     return this.usuarioService.enviarCodigoVerificacao(telefone);
   }
 
-  @Get("listarTodos")
-  @UseGuards(JwtAuthGuard)
-  listarTodos(): Promise<any> {
-    return this.usuarioService.listarTodos();
-  }
-
-  @Get("encontraPorId")
-  @UseGuards(JwtAuthGuard)
-  encontraPorId(@Body("id") id: number): Promise<any> {
-    return this.usuarioService.encontraPorId(id);
-  }
-
   @Delete("deletar")
   @UseGuards(JwtAuthGuard)
   deletar(@Body("id") id: number): Promise<any> {
