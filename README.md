@@ -285,7 +285,7 @@ Body da Resposta
     }
 ```
 ### GET mensagens de um chat
-    http://localhost:3000/chat/{id}
+    http://localhost:3000/message/{id}?telefone={telefone}
 
 Headers
 ```json
@@ -297,36 +297,42 @@ Headers
 Body da Resposta
 ```json
 {
-  "status": 200,
-  "mensagens": [
-    {
-      "mensagem": "Oii",
-      "Autor": {
-        "telefone": 62995559111,
-        "nome": "João Vitor"
-      }
-    },
-    {
-      "mensagem": "tudo bem?",
-      "Autor": {
-        "telefone": 62995559111,
-        "nome": "João Vitor"
-      }
-    }
-  ]
+[
+	{
+		"idMessage": 55,
+		"createdAt": "2024-08-02T00:42:52.000Z",
+		"text": "tentativa de conversa normalmente teste",
+		"telefone": "+5562940028923",
+		"censurado": false
+	},
+	{
+		"idMessage": 56,
+		"createdAt": "2024-08-02T00:43:16.000Z",
+		"text": "tentativa de conversa normalmente teste2",
+		"telefone": "+5562994459111",
+		"censurado": false
+	},
+	{
+		"idMessage": 57,
+		"createdAt": "2024-08-02T00:43:27.000Z",
+		"text": "tentativa de conversa normalmente teste3",
+		"telefone": "+5562940028923",
+		"censurado": false
+	}
+]
 }
 ```
 
 
 
 ### POST enviar mensagem
-    http://localhost:3000/chat 
+    http://localhost:3000/message/{id} 
 
 Body da Requisição
 ```json
     {
-        "mensagem": "Oii",
-        "autor": 62995559111
+        "text": "Oii",
+        "telefone": "+5562985304972"
     }
 ```
 Headers
@@ -338,56 +344,20 @@ Headers
 
 Body da Resposta
 ```json
-    {
-        "mensagem": "Mensagem enviada com sucesso",
-        "status": 200
-    }
+{
+    idMessage: 1,
+    text: "Oii",
+    telefone: "+5562985304972",
+    createdAt: "12/06/2023",
+    censurado: false,
+    chat: {
+      id: {id},
+    },
+  }
 ```
-    
-    
-### GET mensagens trocadas entre o client e outro usuário
-    http://localhost:3000/chat?from={usuario}&to={client}
-
-Headers
-```json
-    {
-        "token": "" //insere token válido  
-    }
-```
-
-Body da Resposta
-```json
-    {
-      "status": 200,
-      "mensagens": [
-        {
-          "mensagem": "Oii",
-          "Autor": {
-            "telefone": 62995559111,
-            "nome": "João Vitor"
-          }
-        },
-        {
-          "mensagem": "tudo bem?",
-          "Autor": {
-            "telefone": 62995559111,
-            "nome": "João Vitor"
-          }
-        },
-          {
-          "mensagem": "oiiiii",
-          "Autor": {
-            "telefone": 62995559333,
-            "nome": "Gabriel Borges"
-          }
-        }
-      ]
-    }
-```
-
 
 ### PUT mensagem
-    http://localhost:3000/chat/{id}
+    http://localhost:3000/message/{id}?telefone={telefone}&text={text}
 
 Headers
 ```json
@@ -395,25 +365,23 @@ Headers
         "token": "" //insere token válido  
     }
 ```
-    
-Body da Requisição
-```json
-    {
-        "mensagem": "Oii",
-        "autor": 62995559111
-    }
-```
 
 Body da Resposta
 ```json
-    {
-        "mensagem": "mensagem editada com sucesso",
-        "status": 200
-    }
+{
+    idMessage: {id},
+    text: {text},
+    telefone: {telefone},
+    createdAt: "12/06/2023",
+    censurado: false,
+    chat: {
+      id: 2,
+    },
+  }
 ```
     
 ### DELETE mensagem
-    http://localhost:3000/chat/{id} 
+    http://localhost:3000/message/{id}?telefone={telefone}
 
 Headers
 ```json
@@ -424,9 +392,9 @@ Headers
 
 Body da Resposta
 ```json
-    {
-        "status": 200
-    }
+{
+	"message": "Mensagem de id {id} deletada"
+}
 ```
 ### POST denunciar mensagem
     http://localhost:3000/chat/denunciar/mensagem
@@ -480,16 +448,17 @@ Body da Resposta
         "status": 201
     }
 ```
-### PATCH adicionar usuário no grupo
+### POST adicionar usuário no grupo
     http://localhost:3000/chat/adicionar
 
 
 Body da Requisição
 ```json
-    {
-        "Administrador": 62995559111,
-        "novoMembro": 62995559333
-    }
+{
+	"id":13,
+	"telefone": "+5562994459111",
+	"administrador": "+5562985304972"
+}
 ```
 Headers
 ```json
@@ -500,20 +469,41 @@ Headers
 
 Body da Resposta
 ```json
-    {
-        "mensagem": "Usuario adicionado com sucesso",
-        "status": 200
-    }
+{
+        flagGrupo: true,
+        nome: "teste",
+        administrador: "+5562985304972",
+        id: 13,
+        usuarios: [
+          {
+            id: 6,
+            nome: "testet",
+            telefone: "+5562985304972",
+            senha: "asdwqdw",
+            banidoAte: null,
+            codigoVerificacao: "353360",
+          },
+          {
+            id: 7,
+            nome: "deftonerson",
+            telefone: "+5562994459111",
+            senha: "teste",
+            banidoAte: null,
+            codigoVerificacao: "666666",
+          }
+        ],
+      };
 ```
-### PATCH remover usuário do grupo
+### POST remover usuário do grupo
     http://localhost:3000/chat/remover
     
 Body da Requisição
 ```json
-    {
-        "Administrador": 62995559111,
-        "membro": 62995559333
-    }
+{
+	"id":13,
+	"telefone": "+5562994459111",
+	"administrador": "+5562985304972"
+}
 ```
 Headers
 ```json
@@ -524,10 +514,70 @@ Headers
 
 Body da Resposta
 ```json
+{
+        flagGrupo: true,
+        nome: "teste",
+        administrador: "+5562985304972",
+        id: 13,
+        usuarios: [
+          {
+            id: 6,
+            nome: "testet",
+            telefone: "+5562985304972",
+            senha: "asdwqdw",
+            banidoAte: null,
+            codigoVerificacao: "353360",
+          }
+        ],
+      };
+```
+
+### GET listar membros do grupo
+    http://localhost:3000/chat/grupo/{id}
+    
+Headers
+```json
     {
-        "mensagem": "Usuario adicionado com sucesso",
-        "status": 200
+        "token": "" //insere token válido  
     }
+```
+
+Body da Resposta
+```json
+[
+          {
+            id: 6,
+            nome: "testet",
+            telefone: "+5562985304972",
+            senha: "asdwqdw",
+            banidoAte: null,
+            codigoVerificacao: "353360",
+          },
+          {
+            id: 7,
+            nome: "deftonerson",
+            telefone: "+5562994459111",
+            senha: "teste",
+            banidoAte: null,
+            codigoVerificacao: "666666",
+          }
+        ]
+```
+### DELETE chat
+    http://localhost:3000/chat/{id}
+    
+Headers
+```json
+    {
+        "token": "" //insere token válido  
+    }
+```
+
+Body da Resposta
+```json
+{
+	"message": "Chat de id 26 deletada"
+}
 ```
 
 ## Testes
