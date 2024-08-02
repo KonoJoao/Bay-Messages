@@ -225,6 +225,7 @@ Representa o módulo que faz a análise do conteúdo das mensagens e sua persist
 
 ### POST registrar
     http://localhost:3000/usuario/cadastrar
+
 Body da Requisição
 
 ```json
@@ -250,6 +251,7 @@ Body da Resposta
     
 ### POST enviar código sms
     http://localhost:3000/usuario/enviarCodigoVerificacao
+
 Body da Requisição
 
 ```json
@@ -288,6 +290,13 @@ Body da Resposta
 
 ### PATCH atualizar
     http://localhost:3000/usuario/atualizar
+    
+Headers
+```json
+    {
+        "token": "" //insere token válido  
+    }
+```
 
 Body da Requisição
 
@@ -336,7 +345,14 @@ Body da Resposta
 ```
 
 ### DELETE deletar usuario
-    http://localhost:3000/usuario/deletar
+    http://localhost:3000/usuario/deletar    
+    
+Headers
+```json
+    {
+        "token": "" //insere token válido  
+    }
+```
 
 Body da Requisição
 
