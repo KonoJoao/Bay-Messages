@@ -114,24 +114,20 @@ export class UsuarioService {
         throw new HttpException("Usuário não encontrado", HttpStatus.NOT_FOUND);
       }
   
-      // Check if the telefone is being updated
       if (usuarioDto.telefone && usuarioExistente.telefone !== usuarioDto.telefone) {
         const telefoneExistente = await this.usuarioRepository.findOne({ where: { telefone: usuarioDto.telefone } });
         if (telefoneExistente) {
           throw new HttpException("Telefone já cadastrado", HttpStatus.BAD_REQUEST);
         }
   
-        // Verify the new telefone
         const isVerified = await this.verificarCodigo(usuarioDto.telefone, usuarioDto.codigoVerificacao);
         if (!isVerified) {
           throw new HttpException("Código de verificação inválido", HttpStatus.BAD_REQUEST);
         }
   
-        // Update telefone
         usuarioExistente.telefone = usuarioDto.telefone;
       }
   
-      // Update other fields except id and telefone
       if (usuarioDto.nome) {
         usuarioExistente.nome = usuarioDto.nome;
       }
