@@ -23,13 +23,10 @@ export class ModeradorController {
     );
     if (response.status) {
       //usuário com penalidade
-      return this.usuarioService.banirUsuario(
-        telefone,
-        response.banimento.data
-      );
+      await this.usuarioService.banirUsuario(telefone, response.banimento.data);
     }
 
-    return response.message;
+    return response;
   }
 
   @Post("desbloquearContato")

@@ -70,7 +70,7 @@ export class ModeradorService {
           status: true,
           banimento: {
             data: dataBanimento,
-            message: "banimento realizado com sucesso!",
+            message: "contato bloqueado no chat com sucesso!",
           },
         };
 
