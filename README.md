@@ -187,11 +187,12 @@ Pós-condições:
 
 ## Regras de Negócio
 
-- Um usuário será banido passará um tempo sem mandar mensagens.
+- Se um usuário for banido, passará uma hora sem mandar mensagens.
 - Mensagens julgadas impróprias deverão ser censuradas.
 - Um grupo deverá possuir no mínimo 1 membro para existir.
 - Cada número deverá possuir somente 1 cadastro correspondente.
-- O nome dos usuários deverão possuir entre 3 e 50 caracteres.
+- Somente usuários participantes de um chat poderão interagir com ele.
+- O usuário deve estar logado para utilizar as funcionalidades do sistema.
 - Apenas usuários autenticados podem enviar mensagens.
 
 ## Diagrama de classe
