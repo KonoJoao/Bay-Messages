@@ -345,14 +345,14 @@ Headers
 Body da Resposta
 ```json
 {
-    idMessage: 1,
-    text: "Oii",
-    telefone: "+5562985304972",
-    createdAt: "12/06/2023",
-    censurado: false,
-    chat: {
-      id: {id},
-    },
+    "idMessage": 1,
+    "text": "Oii",
+    "telefone": "+5562985304972",
+    "createdAt": "12/06/2023",
+    "censurado": false,
+    "chat": {
+      "id": "id"
+    }
   }
 ```
 
@@ -369,14 +369,14 @@ Headers
 Body da Resposta
 ```json
 {
-    idMessage: {id},
-    text: {text},
-    telefone: {telefone},
-    createdAt: "12/06/2023",
-    censurado: false,
-    chat: {
-      id: 2,
-    },
+    "idMessage": "id",
+    "text": "text",
+    "telefone": "telefone",
+    "createdAt": "12/06/2023",
+    "censurado": false,
+    "chat": {
+      "id": 2
+    }
   }
 ```
     
@@ -469,30 +469,30 @@ Headers
 
 Body da Resposta
 ```json
-{
-        flagGrupo: true,
-        nome: "teste",
-        administrador: "+5562985304972",
-        id: 13,
-        usuarios: [
+        {
+        "flagGrupo": true,
+        "nome": "teste",
+        "administrador": "+5562985304972",
+        "id": 13,
+        "usuarios": [
           {
-            id: 6,
-            nome: "testet",
-            telefone: "+5562985304972",
-            senha: "asdwqdw",
-            banidoAte: null,
-            codigoVerificacao: "353360",
+            "id": 6,
+            "nome": "testet",
+            "telefone": "+5562985304972",
+            "senha": "asdwqdw",
+            "banidoAte": null,
+            "codigoVerificacao": "353360",
           },
           {
-            id: 7,
-            nome: "deftonerson",
-            telefone: "+5562994459111",
-            senha: "teste",
-            banidoAte: null,
-            codigoVerificacao: "666666",
+            "id": 7,
+            "nome": "deftonerson",
+            "telefone": "+5562994459111",
+            "senha": "teste",
+            "banidoAte": null,
+            "codigoVerificacao": "666666",
           }
-        ],
-      };
+        ]
+      }
 ```
 ### POST remover usuário do grupo
     http://localhost:3000/chat/remover
@@ -514,22 +514,22 @@ Headers
 
 Body da Resposta
 ```json
-{
-        flagGrupo: true,
-        nome: "teste",
-        administrador: "+5562985304972",
-        id: 13,
-        usuarios: [
+        {
+        "flagGrupo": true,
+        "nome": "teste",
+        "administrador": "+5562985304972",
+        "id": 13,
+        "usuarios": [
           {
-            id: 6,
-            nome: "testet",
-            telefone: "+5562985304972",
-            senha: "asdwqdw",
-            banidoAte: null,
-            codigoVerificacao: "353360",
+            "id": 6,
+            "nome": "testet",
+            "telefone": "+5562985304972",
+            "senha": "asdwqdw",
+            "banidoAte": null,
+            "codigoVerificacao": "353360",
           }
-        ],
-      };
+        ]
+      }
 ```
 
 ### GET listar membros do grupo
@@ -544,24 +544,26 @@ Headers
 
 Body da Resposta
 ```json
+        {
 [
           {
-            id: 6,
-            nome: "testet",
-            telefone: "+5562985304972",
-            senha: "asdwqdw",
-            banidoAte: null,
-            codigoVerificacao: "353360",
+            "id": 6,
+            "nome": "testet",
+            "telefone": "+5562985304972",
+            "senha": "asdwqdw",
+            "banidoAte": null,
+            "codigoVerificacao": "353360",
           },
           {
-            id: 7,
-            nome: "deftonerson",
-            telefone: "+5562994459111",
-            senha: "teste",
-            banidoAte: null,
-            codigoVerificacao: "666666",
+            "id": 7,
+            "nome": "deftonerson",
+            "telefone": "+5562994459111",
+            "senha": "teste",
+            "banidoAte": null,
+            "codigoVerificacao": "666666",
           }
         ]
+}
 ```
 ### DELETE chat
     http://localhost:3000/chat/{id}
