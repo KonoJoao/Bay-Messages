@@ -115,7 +115,7 @@ export class ModeradorService {
           FROM message
           WHERE 
             chatId = ${chatId} AND
-            createdAt >= NOW() - INTERVAL 1 HOUR
+            createdAt >= NOW() - INTERVAL 10 HOUR
           `
         );
         if (
