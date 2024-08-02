@@ -222,55 +222,58 @@ Representa o módulo que faz a análise do conteúdo das mensagens e sua persist
 
 ## Endpoints
 
+
 ### POST registrar
-    http://localhost:3000/registrar
+    http://localhost:3000/usuario/cadastrar
 Body da Requisição
 
 ```json
-    {
-        "telefone": 62995559111,
-        "nome": "João Vitor",
-        "senha": 123456
-    }
+	{
+		"nome": "mateus ganders",
+		"telefone": "+5562907957432",
+		"codigoVerificacao": 855014,
+		"senha": "ganders"
+	}
 ```
 Body da Resposta
 
 ```json
-
-    {
-        "status": 201,
-        "mensagem": "Um código de validação foi enviado para seu telefone"
-    }
+	{
+	    "telefone": "+5562907957432",
+	    "nome": "mateus ganders",
+	    "senha": "ganders",
+	    "banidoAte": null,
+	    "codigoVerificacao": 855014,
+	    "id": 13
+	}
 ```
     
-### POST confirmar registro
-    http://localhost:3000/registrar/confirmar
+### POST enviar código sms
+    http://localhost:3000/usuario/enviarCodigoVerificacao
 Body da Requisição
 
 ```json
-    {
-        "telefone": 62995559111,
-        "codigo": ""
-    }
+	{
+		"telefone": "+5562907957432"
+	}
 ```
 
 Body da Resposta
 
 ```json
 
-    {
-        "status": 200,
-        "mensagem": "Cadastro confirmado com sucesso"
-    }
+	{
+	    "message": "sms enviado"
+	}
 ```
 ### POST logar
-    http://localhost:3000/login
+    http://localhost:3000/auth/login
 
 Body da Requisição
 
 ```json
     {
-        "telefone": 62995559111,
+        "telefone": +5562994459111,
         "senha": 123456
     }
 ```
@@ -278,12 +281,84 @@ Body da Resposta
 
 ```json
 
-    {
-        "status": 200,
-        "mensagem": "Logado",
-        "token": ""
-    }
+	{
+	    "access_token": ""
+	}
 ```
+
+### PATCH atualizar
+    http://localhost:3000/usuario/atualizar
+
+Body da Requisição
+
+```json
+	{
+	    "id": 11,
+	    "nome": "jheissyane"
+	}
+```
+Body da Resposta
+
+```json
+
+	{
+	    "id": 11,
+	    "nome": "jheissyane",
+	    "telefone": "+5562985304932",
+	    "senha": "asd12",
+	    "banidoAte": null,
+	    "codigoVerificacao": null
+	}
+```
+
+### GET listar por telefone
+    http://localhost:3000/usuario/encontraPorTelefone
+
+Body da Requisição
+
+```json
+	{
+		"telefone": "+5562985304932"
+	}
+```
+Body da Resposta
+
+```json
+
+	{
+	    "id": 11,
+	    "nome": "jheissyane",
+	    "telefone": "+5562985304932",
+	    "senha": "asd12",
+	    "banidoAte": null,
+	    "codigoVerificacao": null
+	}
+```
+
+### DELETE deletar usuario
+    http://localhost:3000/usuario/deletar
+
+Body da Requisição
+
+```json
+	{
+	    "id": 7
+	}
+```
+Body da Resposta
+
+```json
+
+	{
+	    "id": 7,
+	    "nome": "deftonerson",
+	    "telefone": "+5562994459111",
+	    "senha": "teste",
+	    "banidoAte": "2024-07-31T01:45:11.000Z",
+	    "codigoVerificacao": null
+	}
+```
+
 ### GET mensagens de um chat
     http://localhost:3000/message/{id}?telefone={telefone}
 
